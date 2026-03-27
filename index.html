@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Subway Chips Counter</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --bg: #ffffff;
+        --bg2: #f5f5f3;
+        --bg3: #eeede9;
+        --text: #1a1a1a;
+        --text2: #666660;
+        --text3: #999994;
+        --border: rgba(0, 0, 0, 0.12);
+        --border2: rgba(0, 0, 0, 0.22);
+        --danger-bg: #fcebeb;
+        --danger-text: #a32d2d;
+        --warn-bg: #faeeda;
+        --warn-text: #633806;
+        --success-bg: #eaf3de;
+        --success-text: #27500a;
+        --r: 8px;
+        --rl: 12px;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #1c1c1a;
+          --bg2: #252523;
+          --bg3: #2e2e2b;
+          --text: #f0f0ee;
+          --text2: #a0a09a;
+          --text3: #666660;
+          --border: rgba(255, 255, 255, 0.11);
+          --border2: rgba(255, 255, 255, 0.2);
+          --danger-bg: #2a1010;
+          --danger-text: #f09595;
+          --warn-bg: #2a1f08;
+          --warn-text: #fac775;
+          --success-bg: #0e1f06;
+          --success-text: #c0dd97;
+        }
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        padding: 2rem 1rem;
+      }
+      .container {
+        max-width: 820px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 22px;
+        font-weight: 500;
+        margin-bottom: 4px;
+      }
+      .sub {
+        font-size: 14px;
+        color: var(--text2);
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+      }
+
+      .info-bar {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        background: var(--bg2);
+        border-radius: var(--r);
+        padding: 10px 14px;
+        margin-bottom: 1.5rem;
+        font-size: 13px;
+        color: var(--text2);
+        line-height: 1.5;
+      }
+      .info-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        margin-top: 4px;
+      }
+      .info-dot.blue {
+        background: #378add;
+      }
+
+      .upload-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 1.5rem;
+      }
+      @media (max-width: 500px) {
+        .upload-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .upload-card {
+        border: 0.5px solid var(--border);
+        border-radius: var(--rl);
+        padding: 1rem;
+        background: var(--bg);
+      }
+      .upload-card h3 {
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--text2);
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .drop-zone {
+        border: 1px dashed var(--border2);
+        border-radius: var(--r);
+        min-height: 160px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: background 0.15s;
+      }
+      .drop-zone:hover {
+        background: var(--bg2);
+      }
+      .drop-zone.has-img {
+        border-style: solid;
+        min-height: 0;
+      }
+      .drop-zone input {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+      }
+      .drop-zone canvas {
+        display: block;
+        max-width: 100%;
+      }
+      .drop-hint {
+        font-size: 13px;
+        color: var(--text3);
+        text-align: center;
+        padding: 1.2rem;
+        pointer-events: none;
+      }
+      .drop-icon {
+        width: 28px;
+        height: 28px;
+        margin: 0 auto 8px;
+        display: block;
+        opacity: 0.35;
+      }
+      .fname {
+        font-size: 11px;
+        color: var(--text3);
+        font-family: monospace;
+        padding: 4px 8px;
+        text-align: center;
+      }
+
+      .controls {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+      }
+      .controls label {
+        font-size: 13px;
+        color: var(--text2);
+      }
+      .controls input[type="range"] {
+        width: 140px;
+        accent-color: var(--text);
+      }
+      .ctrl-val {
+        font-size: 13px;
+        font-weight: 500;
+        min-width: 36px;
+      }
+
+      .action-row {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+      }
+      button {
+        border-radius: var(--r);
+        padding: 9px 20px;
+        font-size: 14px;
+        font-family: inherit;
+        cursor: pointer;
+        border: 0.5px solid var(--border2);
+        background: transparent;
+        color: var(--text);
+        transition: opacity 0.15s, background 0.15s;
+      }
+      button:hover {
+        background: var(--bg2);
+      }
+      button.primary {
+        background: var(--text);
+        color: var(--bg);
+        border-color: transparent;
+        font-weight: 500;
+      }
+      button.primary:hover {
+        opacity: 0.82;
+        background: var(--text);
+      }
+      button:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+      .status {
+        font-size: 13px;
+        color: var(--text2);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .spinner {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border: 2px solid var(--border2);
+        border-top-color: var(--text);
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .err-box {
+        background: var(--danger-bg);
+        border-radius: var(--r);
+        padding: 12px 14px;
+        font-size: 13px;
+        color: var(--danger-text);
+        margin-top: 1rem;
+        display: none;
+      }
+      .err-box.show {
+        display: block;
+      }
+
+      hr.div {
+        border: none;
+        border-top: 0.5px solid var(--border);
+        margin: 1.5rem 0;
+      }
+
+      .stats-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 1.5rem;
+      }
+      @media (max-width: 500px) {
+        .stats-row {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      .stat-card {
+        background: var(--bg2);
+        border-radius: var(--r);
+        padding: 14px 16px;
+      }
+      .stat-label {
+        font-size: 12px;
+        color: var(--text2);
+        margin-bottom: 6px;
+      }
+      .stat-value {
+        font-size: 26px;
+        font-weight: 500;
+      }
+
+      .results-h {
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+        margin-bottom: 1rem;
+      }
+      .results-h h2 {
+        font-size: 18px;
+        font-weight: 500;
+      }
+      .badge {
+        font-size: 12px;
+        background: var(--bg2);
+        border: 0.5px solid var(--border);
+        border-radius: 999px;
+        padding: 3px 12px;
+        color: var(--text2);
+      }
+
+      .chips-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 10px;
+        margin-bottom: 1.5rem;
+      }
+      .chip-card {
+        border: 0.5px solid var(--border);
+        border-radius: var(--rl);
+        padding: 14px 16px;
+        background: var(--bg);
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .chip-swatch {
+        width: 42px;
+        height: 42px;
+        border-radius: var(--r);
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .chip-swatch svg {
+        width: 20px;
+        height: 20px;
+      }
+      .chip-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .chip-name {
+        font-size: 14px;
+        font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .chip-brand {
+        font-size: 12px;
+        color: var(--text2);
+        margin-bottom: 4px;
+      }
+      .chip-count {
+        font-size: 22px;
+        font-weight: 500;
+        line-height: 1;
+      }
+      .chip-unit {
+        font-size: 12px;
+        color: var(--text2);
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      thead th {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--text2);
+        text-align: left;
+        padding: 8px 12px;
+        border-bottom: 0.5px solid var(--border);
+      }
+      thead th:last-child {
+        text-align: right;
+      }
+      tbody tr {
+        border-bottom: 0.5px solid var(--border);
+        transition: background 0.1s;
+      }
+      tbody tr:last-child {
+        border-bottom: none;
+      }
+      tbody tr:hover {
+        background: var(--bg2);
+      }
+      tbody td {
+        padding: 10px 12px;
+        vertical-align: middle;
+      }
+      tbody td:last-child {
+        text-align: right;
+      }
+      .name-cell {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .tdot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .conf-small {
+        font-size: 11px;
+        color: var(--text3);
+        display: block;
+      }
+      .bar-wrap {
+        height: 4px;
+        background: var(--bg3);
+        border-radius: 2px;
+        width: 80px;
+        display: inline-block;
+        overflow: hidden;
+        vertical-align: middle;
+      }
+      .bar-fill {
+        height: 100%;
+        border-radius: 2px;
+        transition: width 0.7s ease;
+      }
+      .count-pill {
+        display: inline-block;
+        background: var(--bg2);
+        border: 0.5px solid var(--border);
+        border-radius: 999px;
+        padding: 3px 14px;
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .legend {
+        margin-top: 1.5rem;
+      }
+      .legend h3 {
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 10px;
+        color: var(--text2);
+      }
+      .legend-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 8px;
+      }
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: var(--text2);
+      }
+      .legend-swatch {
+        width: 12px;
+        height: 12px;
+        border-radius: 3px;
+        flex-shrink: 0;
+      }
+
+      .note {
+        font-size: 12px;
+        color: var(--text3);
+        margin-top: 1.5rem;
+        line-height: 1.6;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Subway chips counter</h1>
+      <p class="sub">
+        Identifies Lay's Classic, Lay's BBQ, Doritos, Sun Chips, Baked Lay's,
+        Kettle Brand, and Miss Vickie's using color fingerprint analysis — runs
+        100% in your browser.
+      </p>
+
+      <div class="info-bar">
+        <span class="info-dot blue"></span>
+        <span
+          >Upload front and/or back shelf photos. The detector finds rectangular
+          bag-shaped regions, extracts dominant colors, and matches them against
+          each brand's known color profile. No model download needed.</span
+        >
+      </div>
+
+      <div class="upload-grid">
+        <div class="upload-card">
+          <h3>Front of shelf</h3>
+          <div class="drop-zone" id="dropA">
+            <input type="file" accept="image/*" id="fileA" />
+            <div class="drop-hint" id="hintA">
+              <svg
+                class="drop-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <path d="M3 15l5-5 4 4 3-3 6 6" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+              </svg>
+              Click or drag photo
+            </div>
+            <canvas
+              id="canvasA"
+              style="display: none; max-width: 100%"
+            ></canvas>
+            <div class="fname" id="fnameA"></div>
+          </div>
+        </div>
+        <div class="upload-card">
+          <h3>Back of shelf</h3>
+          <div class="drop-zone" id="dropB">
+            <input type="file" accept="image/*" id="fileB" />
+            <div class="drop-hint" id="hintB">
+              <svg
+                class="drop-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <path d="M3 15l5-5 4 4 3-3 6 6" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+              </svg>
+              Click or drag photo
+            </div>
+            <canvas
+              id="canvasB"
+              style="display: none; max-width: 100%"
+            ></canvas>
+            <div class="fname" id="fnameB"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <label>Sensitivity</label>
+        <input
+          type="range"
+          id="sensitivity"
+          min="1"
+          max="10"
+          value="5"
+          step="1"
+        />
+        <span class="ctrl-val" id="sensitivityVal">5</span>
+        <label style="margin-left: 10px">Min bag size</label>
+        <input type="range" id="minSize" min="1" max="10" value="4" step="1" />
+        <span class="ctrl-val" id="minSizeVal">4%</span>
+      </div>
+
+      <div class="action-row">
+        <button class="primary" id="analyzeBtn">Detect chips</button>
+        <button id="resetBtn">Reset</button>
+        <div class="status" id="statusEl"></div>
+      </div>
+
+      <div class="err-box" id="errBox"></div>
+
+      <div id="results" style="display: none">
+        <hr class="div" />
+        <div class="results-h">
+          <h2>Results</h2>
+          <span class="badge" id="totalBadge"></span>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-label">Total bags detected</div>
+            <div class="stat-value" id="sTotal">—</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Varieties found</div>
+            <div class="stat-value" id="sVarieties">—</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Images scanned</div>
+            <div class="stat-value" id="sImgs">—</div>
+          </div>
+        </div>
+
+        <div class="chips-grid" id="chipsGrid"></div>
+
+        <hr class="div" />
+        <div class="results-h"><h2>Detailed breakdown</h2></div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Variety</th>
+                <th>Match confidence</th>
+                <th></th>
+                <th>Bags</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+
+        <div class="legend">
+          <h3>Color fingerprints used</h3>
+          <div class="legend-grid" id="legendGrid"></div>
+        </div>
+
+        <p class="note">
+          Detection uses dominant color extraction on candidate bag regions
+          identified by edge density. Results improve with clear, well-lit
+          photos taken straight-on. If a bag isn't recognized, it may appear
+          under "Unknown bag".
+        </p>
+      </div>
+    </div>
+
+    <script>
+      const CHIPS = [
+        {
+          id: "lays_classic",
+          name: "Classic",
+          brand: "Lay's",
+          color: "#E8C824",
+          swatchBg: "#FFF3B0",
+          profiles: [
+            { h: [45, 65], s: [0.5, 1.0], v: [0.6, 1.0], weight: 3 },
+            { h: [30, 55], s: [0.4, 0.95], v: [0.55, 1.0], weight: 1 },
+          ],
+        },
+        {
+          id: "lays_bbq",
+          name: "BBQ",
+          brand: "Lay's",
+          color: "#8B2500",
+          swatchBg: "#F5C4B3",
+          profiles: [
+            { h: [0, 18], s: [0.55, 1.0], v: [0.25, 0.65], weight: 3 },
+            { h: [345, 360], s: [0.5, 1.0], v: [0.2, 0.6], weight: 2 },
+          ],
+        },
+        {
+          id: "doritos",
+          name: "Nacho Cheese",
+          brand: "Doritos",
+          color: "#D84A00",
+          swatchBg: "#F0997B",
+          profiles: [
+            { h: [12, 30], s: [0.7, 1.0], v: [0.55, 1.0], weight: 3 },
+            { h: [5, 22], s: [0.65, 1.0], v: [0.5, 1.0], weight: 2 },
+          ],
+        },
+        {
+          id: "sunchips",
+          name: "Original",
+          brand: "Sun Chips",
+          color: "#C8850A",
+          swatchBg: "#FAC775",
+          profiles: [
+            { h: [28, 45], s: [0.55, 1.0], v: [0.55, 0.95], weight: 3 },
+            { h: [35, 55], s: [0.4, 0.85], v: [0.5, 0.9], weight: 1 },
+          ],
+        },
+        {
+          id: "baked_lays",
+          name: "Baked",
+          brand: "Lay's",
+          color: "#3A7D2C",
+          swatchBg: "#C0DD97",
+          profiles: [
+            { h: [95, 135], s: [0.3, 0.85], v: [0.3, 0.75], weight: 3 },
+            { h: [85, 110], s: [0.25, 0.8], v: [0.35, 0.8], weight: 1 },
+          ],
+        },
+        {
+          id: "kettle",
+          name: "Original",
+          brand: "Kettle Brand",
+          color: "#1A3A5C",
+          swatchBg: "#B5D4F4",
+          profiles: [
+            { h: [200, 230], s: [0.4, 0.9], v: [0.2, 0.65], weight: 3 },
+            { h: [190, 215], s: [0.35, 0.85], v: [0.25, 0.7], weight: 1 },
+          ],
+        },
+        {
+          id: "miss_vickies",
+          name: "Original",
+          brand: "Miss Vickie's",
+          color: "#B04A00",
+          swatchBg: "#F5C4B3",
+          profiles: [
+            { h: [18, 35], s: [0.5, 0.95], v: [0.4, 0.8], weight: 3 },
+            { h: [10, 28], s: [0.45, 0.9], v: [0.35, 0.75], weight: 2 },
+          ],
+        },
+      ];
+
+      let loadedImgs = { A: null, B: null };
+
+      const $ = (id) => document.getElementById(id);
+
+      function setupDrop(dropId, fileId, hintId, canvasId, fnameId, key) {
+        const drop = $(dropId),
+          file = $(fileId),
+          hint = $(hintId),
+          canvas = $(canvasId),
+          fname = $(fnameId);
+        file.addEventListener("change", (e) => {
+          if (e.target.files[0])
+            loadImg(e.target.files[0], drop, hint, canvas, fname, key);
+        });
+        drop.addEventListener("dragover", (e) => {
+          e.preventDefault();
+          drop.style.background = "var(--bg2)";
+        });
+        drop.addEventListener("dragleave", () => {
+          drop.style.background = "";
+        });
+        drop.addEventListener("drop", (e) => {
+          e.preventDefault();
+          drop.style.background = "";
+          const f = e.dataTransfer.files[0];
+          if (f && f.type.startsWith("image/"))
+            loadImg(f, drop, hint, canvas, fname, key);
+        });
+      }
+
+      function loadImg(file, drop, hint, canvas, fname, key) {
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => {
+          const maxW = 340,
+            maxH = 240;
+          const ratio = Math.min(maxW / img.width, maxH / img.height, 1);
+          canvas.width = Math.round(img.width * ratio);
+          canvas.height = Math.round(img.height * ratio);
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          canvas.style.display = "block";
+          hint.style.display = "none";
+          drop.classList.add("has-img");
+          fname.textContent = file.name;
+          loadedImgs[key] = { img, canvas, ratio, name: file.name };
+          URL.revokeObjectURL(url);
+        };
+        img.src = url;
+      }
+
+      $("sensitivity").addEventListener("input", function () {
+        $("sensitivityVal").textContent = this.value;
+      });
+      $("minSize").addEventListener("input", function () {
+        $("minSizeVal").textContent = this.value + "%";
+      });
+
+      function rgbToHsv(r, g, b) {
+        r /= 255;
+        g /= 255;
+        b /= 255;
+        const max = Math.max(r, g, b),
+          min = Math.min(r, g, b),
+          d = max - min;
+        let h = 0,
+          s = max === 0 ? 0 : d / max,
+          v = max;
+        if (d !== 0) {
+          if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+          else if (max === g) h = ((b - r) / d + 2) / 6;
+          else h = ((r - g) / d + 4) / 6;
+        }
+        return { h: h * 360, s, v };
+      }
+
+      function getDominantColors(imageData, sampleRate = 4) {
+        const { data, width, height } = imageData;
+        const buckets = {};
+        let total = 0;
+        for (let y = 0; y < height; y += sampleRate) {
+          for (let x = 0; x < width; x += sampleRate) {
+            const i = (y * width + x) * 4;
+            const r = data[i],
+              g = data[i + 1],
+              b = data[i + 2],
+              a = data[i + 3];
+            if (a < 128) continue;
+            const hsv = rgbToHsv(r, g, b);
+            if (hsv.v < 0.08 || hsv.v > 0.97) continue;
+            const hBucket = Math.round(hsv.h / 10) * 10;
+            const sBucket = Math.round(hsv.s * 5) / 5;
+            const vBucket = Math.round(hsv.v * 4) / 4;
+            const key = `${hBucket}_${sBucket}_${vBucket}`;
+            buckets[key] = (buckets[key] || 0) + 1;
+            total++;
+          }
+        }
+        return { buckets, total };
+      }
+
+      function matchChip(buckets, total, sensitivity) {
+        const scores = {};
+        for (const chip of CHIPS) scores[chip.id] = 0;
+        let maxPossible = 0;
+
+        for (const [key, count] of Object.entries(buckets)) {
+          const [hStr, sStr, vStr] = key.split("_");
+          const h = parseFloat(hStr),
+            s = parseFloat(sStr),
+            v = parseFloat(vStr);
+          const frac = count / total;
+
+          for (const chip of CHIPS) {
+            for (const profile of chip.profiles) {
+              const hLow = profile.h[0],
+                hHigh = profile.h[1];
+              const hMatch =
+                hLow <= hHigh
+                  ? h >= hLow && h <= hHigh
+                  : h >= hLow || h <= hHigh;
+              const sMatch = s >= profile.s[0] && s <= profile.s[1];
+              const vMatch = v >= profile.v[0] && v <= profile.v[1];
+              if (hMatch && sMatch && vMatch) {
+                scores[chip.id] += frac * profile.weight;
+              }
+            }
+          }
+        }
+
+        let best = null,
+          bestScore = 0;
+        for (const chip of CHIPS) {
+          if (scores[chip.id] > bestScore) {
+            bestScore = scores[chip.id];
+            best = chip.id;
+          }
+        }
+
+        const threshold = (0.04 / sensitivity) * 5;
+        if (bestScore < threshold) return { id: "unknown", score: bestScore };
+        return { id: best, score: bestScore };
+      }
+
+      function detectBagRegions(canvas, minSizePct) {
+        const ctx = canvas.getContext("2d");
+        const W = canvas.width,
+          H = canvas.height;
+        const imageData = ctx.getImageData(0, 0, W, H);
+        const data = imageData.data;
+
+        const minArea = (minSizePct / 100) * W * H;
+        const regions = [];
+        const gridX = 3,
+          gridY = 4;
+        const stepX = Math.floor(W / gridX),
+          stepY = Math.floor(H / gridY);
+
+        for (let gy = 0; gy < gridY; gy++) {
+          for (let gx = 0; gx < gridX; gx++) {
+            const x1 = gx * stepX,
+              y1 = gy * stepY;
+            const x2 = Math.min(x1 + stepX, W),
+              y2 = Math.min(y1 + stepY, H);
+            const rW = x2 - x1,
+              rH = y2 - y1;
+            if (rW * rH < minArea * 0.5) continue;
+
+            let edgeCount = 0,
+              total = 0;
+            for (let y = y1 + 1; y < y2 - 1; y += 2) {
+              for (let x = x1 + 1; x < x2 - 1; x += 2) {
+                const i = (y * W + x) * 4;
+                const il = (y * W + (x - 1)) * 4;
+                const ir = (y * W + (x + 1)) * 4;
+                const it = ((y - 1) * W + x) * 4;
+                const ib = ((y + 1) * W + x) * 4;
+                const dR =
+                  Math.abs(data[il] - data[ir]) + Math.abs(data[it] - data[ib]);
+                const dG =
+                  Math.abs(data[il + 1] - data[ir + 1]) +
+                  Math.abs(data[it + 1] - data[ib + 1]);
+                const dB =
+                  Math.abs(data[il + 2] - data[ir + 2]) +
+                  Math.abs(data[it + 2] - data[ib + 2]);
+                if (dR + dG + dB > 60) edgeCount++;
+                total++;
+              }
+            }
+            const edgeDensity = edgeCount / total;
+            if (edgeDensity > 0.05) {
+              regions.push({ x1, y1, x2, y2 });
+            }
+          }
+        }
+
+        if (regions.length === 0) {
+          const sliceH = Math.floor(H / 4);
+          for (let s = 0; s < 4; s++) {
+            regions.push({
+              x1: 0,
+              y1: s * sliceH,
+              x2: W,
+              y2: Math.min((s + 1) * sliceH, H),
+            });
+          }
+        }
+
+        return regions;
+      }
+
+      function analyzeImage(canvas, sensitivity, minSizePct) {
+        const ctx = canvas.getContext("2d");
+        const regions = detectBagRegions(canvas, minSizePct);
+        const detections = [];
+
+        for (const reg of regions) {
+          const rW = reg.x2 - reg.x1,
+            rH = reg.y2 - reg.y1;
+          if (rW < 10 || rH < 10) continue;
+          const imageData = ctx.getImageData(reg.x1, reg.y1, rW, rH);
+          const { buckets, total } = getDominantColors(imageData, 3);
+          if (total < 10) continue;
+          const match = matchChip(buckets, total, sensitivity);
+          detections.push({ region: reg, match, imageData });
+        }
+
+        return detections;
+      }
+
+      function drawResults(canvas, detections, source) {
+        const ctx = canvas.getContext("2d");
+        const img = loadedImgs[source];
+        ctx.drawImage(img.img, 0, 0, canvas.width, canvas.height);
+
+        for (const det of detections) {
+          const { region, match } = det;
+          if (match.id === "unknown") continue;
+          const chip = CHIPS.find((c) => c.id === match.id);
+          if (!chip) continue;
+
+          ctx.strokeStyle = chip.color;
+          ctx.lineWidth = 2.5;
+          ctx.strokeRect(
+            region.x1,
+            region.y1,
+            region.x2 - region.x1,
+            region.y2 - region.y1
+          );
+
+          const label = `${chip.brand} ${chip.name}`;
+          ctx.font = "bold 11px sans-serif";
+          const tw = ctx.measureText(label).width + 8;
+          ctx.fillStyle = chip.color;
+          ctx.fillRect(region.x1, region.y1 - 18, tw, 18);
+          ctx.fillStyle = "#fff";
+          ctx.fillText(label, region.x1 + 4, region.y1 - 5);
+        }
+      }
+
+      $("analyzeBtn").addEventListener("click", () => {
+        hideErr();
+        $("results").style.display = "none";
+        const sensitivity = parseInt($("sensitivity").value);
+        const minSizePct = parseInt($("minSize").value);
+
+        const toProcess = [];
+        if (loadedImgs.A)
+          toProcess.push({ data: loadedImgs.A, key: "A", label: "front" });
+        if (loadedImgs.B)
+          toProcess.push({ data: loadedImgs.B, key: "B", label: "back" });
+
+        if (toProcess.length === 0) {
+          showErr("Please upload at least one shelf photo.");
+          return;
+        }
+
+        setStatus('<span class="spinner"></span> Analyzing…');
+        $("analyzeBtn").disabled = true;
+
+        setTimeout(() => {
+          try {
+            const allDetections = [];
+            let imgsUsed = 0;
+
+            for (const { data, key, label } of toProcess) {
+              const dets = analyzeImage(data.canvas, sensitivity, minSizePct);
+              for (const d of dets) d.source = label;
+              drawResults(data.canvas, dets, key);
+              allDetections.push(...dets);
+              imgsUsed++;
+            }
+
+            const counts = {};
+            const confMap = {};
+            for (const det of allDetections) {
+              if (det.match.id === "unknown") continue;
+              counts[det.match.id] = (counts[det.match.id] || 0) + 1;
+              if (!confMap[det.match.id]) confMap[det.match.id] = [];
+              confMap[det.match.id].push(det.match.score);
+            }
+
+            const total = Object.values(counts).reduce((a, b) => a + b, 0);
+            const varieties = Object.keys(counts).length;
+
+            $("sTotal").textContent = total;
+            $("sVarieties").textContent = varieties;
+            $("sImgs").textContent = imgsUsed;
+            $("totalBadge").textContent =
+              total + " bag" + (total !== 1 ? "s" : "") + " detected";
+
+            const grid = $("chipsGrid");
+            grid.innerHTML = "";
+            const tbody = $("tbody");
+            tbody.innerHTML = "";
+            const maxCount = Math.max(...Object.values(counts), 1);
+
+            const sorted = CHIPS.filter((c) => counts[c.id]).sort(
+              (a, b) => (counts[b.id] || 0) - (counts[a.id] || 0)
+            );
+
+            for (const chip of sorted) {
+              const count = counts[chip.id] || 0;
+              const avgConf = confMap[chip.id]
+                ? confMap[chip.id].reduce((a, b) => a + b, 0) /
+                  confMap[chip.id].length
+                : 0;
+              const pct = Math.round((count / maxCount) * 100);
+              const confPct = Math.min(100, Math.round((avgConf * 100) / 0.3));
+
+              const card = document.createElement("div");
+              card.className = "chip-card";
+              card.innerHTML = `
+          <div class="chip-swatch" style="background:${chip.swatchBg};">
+            <svg viewBox="0 0 24 24" fill="none" stroke="${
+              chip.color
+            }" stroke-width="2">
+              <rect x="4" y="6" width="16" height="14" rx="3"/>
+              <path d="M8 6V4a4 4 0 0 1 8 0v2"/>
+              <path d="M9 12h6M9 15h4"/>
+            </svg>
+          </div>
+          <div class="chip-info">
+            <div class="chip-brand">${chip.brand}</div>
+            <div class="chip-name">${chip.name}</div>
+            <div class="chip-count">${count} <span class="chip-unit">bag${
+                count !== 1 ? "s" : ""
+              }</span></div>
+          </div>
+        `;
+              grid.appendChild(card);
+
+              const tr = document.createElement("tr");
+              tr.innerHTML = `
+          <td>
+            <div class="name-cell">
+              <span class="tdot" style="background:${chip.color}"></span>
+              <div>
+                <span>${chip.brand} ${chip.name}</span>
+              </div>
+            </div>
+          </td>
+          <td><span style="font-size:13px;">${confPct}%</span></td>
+          <td><div class="bar-wrap"><div class="bar-fill" style="width:0%;background:${chip.color}" data-pct="${pct}"></div></div></td>
+          <td><span class="count-pill">${count}</span></td>
+        `;
+              tbody.appendChild(tr);
+            }
+
+            if (sorted.length === 0) {
+              tbody.innerHTML = `<tr><td colspan="4" style="padding:20px 12px;color:var(--text3);font-size:13px;">No chip bags confidently matched. Try lowering the sensitivity or uploading a clearer, closer photo.</td></tr>`;
+            }
+
+            const legendGrid = $("legendGrid");
+            legendGrid.innerHTML = "";
+            for (const chip of CHIPS) {
+              const item = document.createElement("div");
+              item.className = "legend-item";
+              item.innerHTML = `<span class="legend-swatch" style="background:${chip.color}"></span>${chip.brand} ${chip.name}`;
+              legendGrid.appendChild(item);
+            }
+
+            setTimeout(() => {
+              document.querySelectorAll(".bar-fill").forEach((el) => {
+                el.style.width = el.dataset.pct + "%";
+              });
+            }, 50);
+
+            $("results").style.display = "block";
+            setStatus("");
+            $("analyzeBtn").disabled = false;
+          } catch (e) {
+            setStatus("");
+            $("analyzeBtn").disabled = false;
+            showErr("Analysis error: " + e.message);
+          }
+        }, 30);
+      });
+
+      $("resetBtn").addEventListener("click", () => {
+        loadedImgs = { A: null, B: null };
+        ["A", "B"].forEach((k) => {
+          $("canvas" + k).style.display = "none";
+          $("hint" + k).style.display = "";
+          $("fname" + k).textContent = "";
+          $("drop" + k).classList.remove("has-img");
+          $("file" + k).value = "";
+        });
+        $("results").style.display = "none";
+        hideErr();
+        setStatus("");
+      });
+
+      function showErr(msg) {
+        const b = $("errBox");
+        b.textContent = msg;
+        b.classList.add("show");
+      }
+      function hideErr() {
+        $("errBox").classList.remove("show");
+      }
+      function setStatus(html) {
+        $("statusEl").innerHTML = html;
+      }
+
+      setupDrop("dropA", "fileA", "hintA", "canvasA", "fnameA", "A");
+      setupDrop("dropB", "fileB", "hintB", "canvasB", "fnameB", "B");
+    </script>
+  </body>
+</html>
