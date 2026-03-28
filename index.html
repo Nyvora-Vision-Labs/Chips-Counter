@@ -3,7 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Subway Chips Counter</title>
+    <title>Chip Rack Counter</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
     <style>
       *,
       *::before,
@@ -13,133 +17,79 @@
         padding: 0;
       }
       :root {
-        --bg: #ffffff;
-        --bg2: #f5f5f3;
-        --bg3: #eeede9;
-        --text: #1a1a1a;
-        --text2: #666660;
-        --text3: #999994;
-        --border: rgba(0, 0, 0, 0.12);
-        --border2: rgba(0, 0, 0, 0.22);
-        --danger-bg: #fcebeb;
-        --danger-text: #a32d2d;
-        --warn-bg: #faeeda;
-        --warn-text: #633806;
-        --success-bg: #eaf3de;
-        --success-text: #27500a;
-        --r: 8px;
+        --ink: #0f0f0d;
+        --ink2: #5a5a52;
+        --ink3: #9a9a90;
+        --paper: #f8f7f2;
+        --paper2: #eeecea;
+        --paper3: #e4e2dd;
+        --accent: #e8400a;
+        --border: rgba(15, 15, 13, 0.1);
+        --border2: rgba(15, 15, 13, 0.18);
+        --r: 6px;
         --rl: 12px;
       }
-      @media (prefers-color-scheme: dark) {
-        :root {
-          --bg: #1c1c1a;
-          --bg2: #252523;
-          --bg3: #2e2e2b;
-          --text: #f0f0ee;
-          --text2: #a0a09a;
-          --text3: #666660;
-          --border: rgba(255, 255, 255, 0.11);
-          --border2: rgba(255, 255, 255, 0.2);
-          --danger-bg: #2a1010;
-          --danger-text: #f09595;
-          --warn-bg: #2a1f08;
-          --warn-text: #fac775;
-          --success-bg: #0e1f06;
-          --success-text: #c0dd97;
-        }
-      }
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        background: var(--bg);
-        color: var(--text);
+        font-family: "DM Sans", sans-serif;
+        background: var(--paper);
+        color: var(--ink);
         min-height: 100vh;
-        padding: 2rem 1rem;
+        padding: 2.5rem 1rem 4rem;
       }
-      .container {
-        max-width: 820px;
+      .wrap {
+        max-width: 720px;
         margin: 0 auto;
       }
-      h1 {
-        font-size: 22px;
+
+      .header-tag {
+        display: inline-block;
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
         font-weight: 500;
-        margin-bottom: 4px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--accent);
+        border: 1px solid var(--accent);
+        border-radius: 3px;
+        padding: 2px 7px;
+        margin-bottom: 10px;
+      }
+      h1 {
+        font-size: 28px;
+        font-weight: 600;
+        letter-spacing: -0.02em;
       }
       .sub {
         font-size: 14px;
-        color: var(--text2);
-        margin-bottom: 1.5rem;
+        color: var(--ink2);
+        margin-top: 6px;
         line-height: 1.6;
+        max-width: 540px;
       }
 
-      .info-bar {
-        display: flex;
-        align-items: flex-start;
-        gap: 10px;
-        background: var(--bg2);
-        border-radius: var(--r);
-        padding: 10px 14px;
-        margin-bottom: 1.5rem;
-        font-size: 13px;
-        color: var(--text2);
-        line-height: 1.5;
-      }
-      .info-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        flex-shrink: 0;
-        margin-top: 4px;
-      }
-      .info-dot.blue {
-        background: #378add;
-      }
-
-      .upload-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-        margin-bottom: 1.5rem;
-      }
-      @media (max-width: 500px) {
-        .upload-grid {
-          grid-template-columns: 1fr;
-        }
-      }
-      .upload-card {
-        border: 0.5px solid var(--border);
+      .drop {
+        border: 1.5px dashed var(--border2);
         border-radius: var(--rl);
-        padding: 1rem;
-        background: var(--bg);
-      }
-      .upload-card h3 {
-        font-size: 11px;
-        font-weight: 500;
-        color: var(--text2);
-        margin-bottom: 10px;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-      }
-      .drop-zone {
-        border: 1px dashed var(--border2);
-        border-radius: var(--r);
-        min-height: 160px;
+        background: var(--paper);
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        min-height: 200px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-        transition: background 0.15s;
+        margin: 1.5rem 0 1rem;
+        transition: background 0.15s, border-color 0.15s;
       }
-      .drop-zone:hover {
-        background: var(--bg2);
+      .drop:hover {
+        background: var(--paper2);
       }
-      .drop-zone.has-img {
-        border-style: solid;
+      .drop.has {
         min-height: 0;
+        border-style: solid;
       }
-      .drop-zone input {
+      .drop input {
         position: absolute;
         inset: 0;
         opacity: 0;
@@ -147,103 +97,135 @@
         width: 100%;
         height: 100%;
       }
-      .drop-zone canvas {
+      .drop canvas {
         display: block;
         max-width: 100%;
       }
       .drop-hint {
-        font-size: 13px;
-        color: var(--text3);
         text-align: center;
-        padding: 1.2rem;
         pointer-events: none;
+        padding: 2rem;
       }
       .drop-icon {
-        width: 28px;
-        height: 28px;
-        margin: 0 auto 8px;
-        display: block;
-        opacity: 0.35;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: var(--paper3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 12px;
       }
-      .fname {
+      .drop-icon svg {
+        width: 22px;
+        height: 22px;
+        opacity: 0.45;
+      }
+      .drop-lbl {
+        font-size: 14px;
+        color: var(--ink2);
+      }
+      .drop-sub {
+        font-size: 12px;
+        color: var(--ink3);
+        margin-top: 4px;
+      }
+
+      .ctrl-row {
+        display: flex;
+        gap: 14px;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+      }
+      .ctrl-g {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .ctrl-lbl {
+        font-family: "DM Mono", monospace;
         font-size: 11px;
-        color: var(--text3);
-        font-family: monospace;
-        padding: 4px 8px;
+        font-weight: 500;
+        color: var(--ink2);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      input[type="number"] {
+        width: 70px;
+        padding: 9px 10px;
+        font-size: 15px;
+        font-family: "DM Mono", monospace;
+        font-weight: 500;
+        border: 1.5px solid var(--border2);
+        border-radius: var(--r);
+        background: var(--paper);
+        color: var(--ink);
         text-align: center;
       }
-
-      .controls {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        margin-bottom: 1rem;
-        flex-wrap: wrap;
+      input[type="number"]:focus {
+        outline: none;
+        border-color: var(--ink);
       }
-      .controls label {
-        font-size: 13px;
-        color: var(--text2);
-      }
-      .controls input[type="range"] {
-        width: 140px;
-        accent-color: var(--text);
-      }
-      .ctrl-val {
-        font-size: 13px;
-        font-weight: 500;
-        min-width: 36px;
+      .ctrl-note {
+        font-size: 12px;
+        color: var(--ink3);
+        line-height: 1.5;
+        max-width: 200px;
       }
 
-      .action-row {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        margin-bottom: 1.5rem;
-        flex-wrap: wrap;
-      }
-      button {
-        border-radius: var(--r);
-        padding: 9px 20px;
+      .btn {
+        padding: 10px 22px;
         font-size: 14px;
-        font-family: inherit;
-        cursor: pointer;
-        border: 0.5px solid var(--border2);
-        background: transparent;
-        color: var(--text);
-        transition: opacity 0.15s, background 0.15s;
-      }
-      button:hover {
-        background: var(--bg2);
-      }
-      button.primary {
-        background: var(--text);
-        color: var(--bg);
-        border-color: transparent;
         font-weight: 500;
+        font-family: inherit;
+        border-radius: var(--r);
+        cursor: pointer;
+        border: 1.5px solid var(--border2);
+        background: transparent;
+        color: var(--ink);
+        transition: all 0.15s;
+        white-space: nowrap;
       }
-      button.primary:hover {
+      .btn:hover {
+        background: var(--paper2);
+      }
+      .btn.pri {
+        background: var(--ink);
+        color: var(--paper);
+        border-color: var(--ink);
+      }
+      .btn.pri:hover {
         opacity: 0.82;
-        background: var(--text);
       }
-      button:disabled {
+      .btn:disabled {
         opacity: 0.3;
         cursor: not-allowed;
       }
+      .btn-row {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+      }
       .status {
         font-size: 13px;
-        color: var(--text2);
+        color: var(--ink2);
+        font-family: "DM Mono", monospace;
         display: flex;
         align-items: center;
-        gap: 6px;
+        gap: 8px;
       }
-      .spinner {
+      .spin {
         display: inline-block;
         width: 14px;
         height: 14px;
         border: 2px solid var(--border2);
-        border-top-color: var(--text);
+        border-top-color: var(--ink);
         border-radius: 50%;
         animation: spin 0.7s linear infinite;
+        flex-shrink: 0;
       }
       @keyframes spin {
         to {
@@ -251,523 +233,461 @@
         }
       }
 
-      .err-box {
-        background: var(--danger-bg);
+      .err {
+        background: #fef0ee;
+        border: 1px solid #f9c0b0;
         border-radius: var(--r);
         padding: 12px 14px;
         font-size: 13px;
-        color: var(--danger-text);
-        margin-top: 1rem;
+        color: #a02010;
+        margin-bottom: 1rem;
         display: none;
       }
-      .err-box.show {
+      .err.show {
         display: block;
       }
 
-      hr.div {
+      hr {
         border: none;
-        border-top: 0.5px solid var(--border);
-        margin: 1.5rem 0;
+        border-top: 1px solid var(--border);
+        margin: 2rem 0;
       }
 
-      .stats-row {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-        margin-bottom: 1.5rem;
-      }
-      @media (max-width: 500px) {
-        .stats-row {
-          grid-template-columns: 1fr 1fr;
-        }
-      }
-      .stat-card {
-        background: var(--bg2);
-        border-radius: var(--r);
-        padding: 14px 16px;
-      }
-      .stat-label {
-        font-size: 12px;
-        color: var(--text2);
-        margin-bottom: 6px;
-      }
-      .stat-value {
-        font-size: 26px;
-        font-weight: 500;
-      }
-
-      .results-h {
+      .res-head {
         display: flex;
         align-items: baseline;
         gap: 12px;
-        margin-bottom: 1rem;
+        margin-bottom: 1.25rem;
       }
-      .results-h h2 {
-        font-size: 18px;
-        font-weight: 500;
+      .res-head h2 {
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: -0.02em;
       }
-      .badge {
-        font-size: 12px;
-        background: var(--bg2);
-        border: 0.5px solid var(--border);
-        border-radius: 999px;
-        padding: 3px 12px;
-        color: var(--text2);
+      .res-tag {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: var(--ink3);
+        background: var(--paper3);
+        border-radius: 4px;
+        padding: 2px 8px;
       }
 
-      .chips-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-        gap: 10px;
-        margin-bottom: 1.5rem;
-      }
-      .chip-card {
-        border: 0.5px solid var(--border);
+      .row-card {
+        border: 1px solid var(--border);
         border-radius: var(--rl);
-        padding: 14px 16px;
-        background: var(--bg);
-        display: flex;
-        align-items: center;
-        gap: 14px;
-      }
-      .chip-swatch {
-        width: 42px;
-        height: 42px;
-        border-radius: var(--r);
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .chip-swatch svg {
-        width: 20px;
-        height: 20px;
-      }
-      .chip-info {
-        flex: 1;
-        min-width: 0;
-      }
-      .chip-name {
-        font-size: 14px;
-        font-weight: 500;
-        white-space: nowrap;
+        background: var(--paper);
+        margin-bottom: 10px;
         overflow: hidden;
-        text-overflow: ellipsis;
       }
-      .chip-brand {
-        font-size: 12px;
-        color: var(--text2);
-        margin-bottom: 4px;
+      .row-hdr {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 9px 14px;
+        background: var(--paper2);
+        border-bottom: 1px solid var(--border);
       }
-      .chip-count {
-        font-size: 22px;
+      .row-lbl {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
         font-weight: 500;
-        line-height: 1;
+        color: var(--ink2);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
       }
-      .chip-unit {
+      .row-sub {
+        font-family: "DM Mono", monospace;
         font-size: 12px;
-        color: var(--text2);
+        font-weight: 500;
+        color: var(--ink);
+        background: var(--paper3);
+        border-radius: 4px;
+        padding: 2px 8px;
       }
 
-      .table-wrap {
-        overflow-x: auto;
+      .chip-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 16px;
+        border-bottom: 1px solid var(--border);
       }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 14px;
-      }
-      thead th {
-        font-size: 12px;
-        font-weight: 500;
-        color: var(--text2);
-        text-align: left;
-        padding: 8px 12px;
-        border-bottom: 0.5px solid var(--border);
-      }
-      thead th:last-child {
-        text-align: right;
-      }
-      tbody tr {
-        border-bottom: 0.5px solid var(--border);
-        transition: background 0.1s;
-      }
-      tbody tr:last-child {
+      .chip-item:last-child {
         border-bottom: none;
       }
-      tbody tr:hover {
-        background: var(--bg2);
-      }
-      tbody td {
-        padding: 10px 12px;
-        vertical-align: middle;
-      }
-      tbody td:last-child {
-        text-align: right;
-      }
-      .name-cell {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .tdot {
+      .chip-dot {
         width: 10px;
         height: 10px;
         border-radius: 50%;
         flex-shrink: 0;
+        border: 1.5px solid rgba(0, 0, 0, 0.15);
       }
-      .conf-small {
-        font-size: 11px;
-        color: var(--text3);
-        display: block;
-      }
-      .bar-wrap {
-        height: 4px;
-        background: var(--bg3);
-        border-radius: 2px;
-        width: 80px;
-        display: inline-block;
-        overflow: hidden;
-        vertical-align: middle;
-      }
-      .bar-fill {
-        height: 100%;
-        border-radius: 2px;
-        transition: width 0.7s ease;
-      }
-      .count-pill {
-        display: inline-block;
-        background: var(--bg2);
-        border: 0.5px solid var(--border);
-        border-radius: 999px;
-        padding: 3px 14px;
-        font-size: 13px;
-        font-weight: 500;
-      }
-
-      .legend {
-        margin-top: 1.5rem;
-      }
-      .legend h3 {
+      .chip-name {
+        flex: 1;
         font-size: 14px;
         font-weight: 500;
-        margin-bottom: 10px;
-        color: var(--text2);
       }
-      .legend-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        gap: 8px;
-      }
-      .legend-item {
-        display: flex;
-        align-items: center;
-        gap: 8px;
+      .chip-brand {
         font-size: 12px;
-        color: var(--text2);
+        color: var(--ink3);
+        font-family: "DM Mono", monospace;
       }
-      .legend-swatch {
-        width: 12px;
-        height: 12px;
-        border-radius: 3px;
-        flex-shrink: 0;
+      .chip-qty {
+        font-size: 14px;
+        font-weight: 600;
+        font-family: "DM Mono", monospace;
+        min-width: 36px;
+        text-align: right;
+      }
+      .chip-unit {
+        font-size: 11px;
+        color: var(--ink3);
+        font-weight: 400;
+      }
+      .chip-conf {
+        font-size: 11px;
+        color: var(--ink3);
+        font-family: "DM Mono", monospace;
+        margin-left: 8px;
+        background: var(--paper3);
+        border-radius: 4px;
+        padding: 1px 6px;
       }
 
-      .note {
-        font-size: 12px;
-        color: var(--text3);
+      .total-bar {
+        background: var(--ink);
+        color: var(--paper);
+        border-radius: var(--rl);
+        padding: 18px 22px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         margin-top: 1.5rem;
-        line-height: 1.6;
+      }
+      .total-lbl {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.5);
+        font-family: "DM Mono", monospace;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .total-num {
+        font-size: 36px;
+        font-weight: 600;
+        letter-spacing: -0.03em;
+      }
+
+      .foot {
+        font-size: 12px;
+        color: var(--ink3);
+        margin-top: 1rem;
+        line-height: 1.7;
+      }
+
+      #debugWrap {
+        display: none;
+        margin-top: 1.5rem;
+      }
+      #debugWrap.show {
+        display: block;
+      }
+      .debug-lbl {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: var(--ink3);
+        margin-bottom: 6px;
+      }
+      #debugCanvas {
+        max-width: 100%;
+        border-radius: var(--r);
+        border: 1px solid var(--border);
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <h1>Subway chips counter</h1>
-      <p class="sub">
-        Identifies Lay's Classic, Lay's BBQ, Doritos, Sun Chips, Baked Lay's,
-        Kettle Brand, and Miss Vickie's using color fingerprint analysis — runs
-        100% in your browser.
-      </p>
-
-      <div class="info-bar">
-        <span class="info-dot blue"></span>
-        <span
-          >Upload front and/or back shelf photos. The detector finds rectangular
-          bag-shaped regions, extracts dominant colors, and matches them against
-          each brand's known color profile. No model download needed.</span
-        >
+    <div class="wrap">
+      <div style="margin-bottom: 1.5rem">
+        <div class="header-tag">Inventory Tool</div>
+        <h1>Chip Rack Counter</h1>
+        <p class="sub">
+          Upload a rack photo. Detects multiple varieties per row, segments
+          individual bag columns, and estimates total inventory — fully in your
+          browser, no account needed.
+        </p>
       </div>
 
-      <div class="upload-grid">
-        <div class="upload-card">
-          <h3>Front of shelf</h3>
-          <div class="drop-zone" id="dropA">
-            <input type="file" accept="image/*" id="fileA" />
-            <div class="drop-hint" id="hintA">
-              <svg
-                class="drop-icon"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <rect x="3" y="3" width="18" height="18" rx="2" />
-                <path d="M3 15l5-5 4 4 3-3 6 6" />
-                <circle cx="8.5" cy="8.5" r="1.5" />
-              </svg>
-              Click or drag photo
-            </div>
-            <canvas
-              id="canvasA"
-              style="display: none; max-width: 100%"
-            ></canvas>
-            <div class="fname" id="fnameA"></div>
+      <div class="drop" id="dropZone">
+        <input type="file" id="fileInput" accept="image/*" />
+        <div class="drop-hint" id="dropHint">
+          <div class="drop-icon">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+              <path d="M3 15l5-5 4 4 3-3 6 6" />
+              <circle cx="8.5" cy="8.5" r="1.5" />
+            </svg>
+          </div>
+          <div class="drop-lbl">Click or drag a photo here</div>
+          <div class="drop-sub">
+            Works best with the whole rack visible and decent lighting
           </div>
         </div>
-        <div class="upload-card">
-          <h3>Back of shelf</h3>
-          <div class="drop-zone" id="dropB">
-            <input type="file" accept="image/*" id="fileB" />
-            <div class="drop-hint" id="hintB">
-              <svg
-                class="drop-icon"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <rect x="3" y="3" width="18" height="18" rx="2" />
-                <path d="M3 15l5-5 4 4 3-3 6 6" />
-                <circle cx="8.5" cy="8.5" r="1.5" />
-              </svg>
-              Click or drag photo
-            </div>
-            <canvas
-              id="canvasB"
-              style="display: none; max-width: 100%"
-            ></canvas>
-            <div class="fname" id="fnameB"></div>
+        <canvas id="prevCanvas" style="display: none"></canvas>
+      </div>
+
+      <div class="ctrl-row">
+        <div class="ctrl-g">
+          <div class="ctrl-lbl">Bags deep per slot</div>
+          <input type="number" id="bagsPerRow" value="4" min="1" max="30" />
+        </div>
+        <div class="ctrl-g" style="justify-content: flex-end">
+          <div class="ctrl-note">
+            How many bags stack front-to-back in each slot
           </div>
         </div>
       </div>
 
-      <div class="controls">
-        <label>Sensitivity</label>
-        <input
-          type="range"
-          id="sensitivity"
-          min="1"
-          max="10"
-          value="5"
-          step="1"
-        />
-        <span class="ctrl-val" id="sensitivityVal">5</span>
-        <label style="margin-left: 10px">Min bag size</label>
-        <input type="range" id="minSize" min="1" max="10" value="4" step="1" />
-        <span class="ctrl-val" id="minSizeVal">4%</span>
-      </div>
-
-      <div class="action-row">
-        <button class="primary" id="analyzeBtn">Detect chips</button>
-        <button id="resetBtn">Reset</button>
+      <div class="btn-row">
+        <button class="btn pri" id="analyzeBtn">Count chips</button>
+        <button class="btn" id="resetBtn">Reset</button>
         <div class="status" id="statusEl"></div>
       </div>
+      <div class="err" id="errBox"></div>
 
-      <div class="err-box" id="errBox"></div>
+      <div id="debugWrap">
+        <div class="debug-lbl">
+          Detection overlay — rows &amp; identified bag segments
+        </div>
+        <canvas id="debugCanvas"></canvas>
+      </div>
 
       <div id="results" style="display: none">
-        <hr class="div" />
-        <div class="results-h">
-          <h2>Results</h2>
-          <span class="badge" id="totalBadge"></span>
+        <hr />
+        <div class="res-head">
+          <h2>Inventory</h2>
+          <span class="res-tag" id="rowTag"></span>
         </div>
-
-        <div class="stats-row">
-          <div class="stat-card">
-            <div class="stat-label">Total bags detected</div>
-            <div class="stat-value" id="sTotal">—</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Varieties found</div>
-            <div class="stat-value" id="sVarieties">—</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Images scanned</div>
-            <div class="stat-value" id="sImgs">—</div>
-          </div>
+        <div id="rowList"></div>
+        <div class="total-bar">
+          <div class="total-lbl">Total bags estimated</div>
+          <div class="total-num" id="grandTotal">—</div>
         </div>
-
-        <div class="chips-grid" id="chipsGrid"></div>
-
-        <hr class="div" />
-        <div class="results-h"><h2>Detailed breakdown</h2></div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Variety</th>
-                <th>Match confidence</th>
-                <th></th>
-                <th>Bags</th>
-              </tr>
-            </thead>
-            <tbody id="tbody"></tbody>
-          </table>
-        </div>
-
-        <div class="legend">
-          <h3>Color fingerprints used</h3>
-          <div class="legend-grid" id="legendGrid"></div>
-        </div>
-
-        <p class="note">
-          Detection uses dominant color extraction on candidate bag regions
-          identified by edge density. Results improve with clear, well-lit
-          photos taken straight-on. If a bag isn't recognized, it may appear
-          under "Unknown bag".
-        </p>
+        <p class="foot" id="footNote"></p>
       </div>
     </div>
 
     <script>
+      // ── Chip database ──────────────────────────────────────────────
       const CHIPS = [
         {
           id: "lays_classic",
           name: "Classic",
           brand: "Lay's",
-          color: "#E8C824",
-          swatchBg: "#FFF3B0",
+          color: "#D4A800",
           profiles: [
-            { h: [45, 65], s: [0.5, 1.0], v: [0.6, 1.0], weight: 3 },
-            { h: [30, 55], s: [0.4, 0.95], v: [0.55, 1.0], weight: 1 },
+            { h: [40, 62], s: [0.55, 1.0], v: [0.6, 1.0], w: 5 },
+            { h: [34, 52], s: [0.45, 1.0], v: [0.52, 1.0], w: 3 },
           ],
         },
         {
           id: "lays_bbq",
           name: "BBQ",
           brand: "Lay's",
-          color: "#8B2500",
-          swatchBg: "#F5C4B3",
+          color: "#7A1E00",
           profiles: [
-            { h: [0, 18], s: [0.55, 1.0], v: [0.25, 0.65], weight: 3 },
-            { h: [345, 360], s: [0.5, 1.0], v: [0.2, 0.6], weight: 2 },
+            { h: [0, 15], s: [0.6, 1.0], v: [0.12, 0.52], w: 5 },
+            { h: [348, 360], s: [0.55, 1.0], v: [0.12, 0.52], w: 4 },
           ],
         },
         {
-          id: "doritos",
-          name: "Nacho Cheese",
-          brand: "Doritos",
-          color: "#D84A00",
-          swatchBg: "#F0997B",
-          profiles: [
-            { h: [12, 30], s: [0.7, 1.0], v: [0.55, 1.0], weight: 3 },
-            { h: [5, 22], s: [0.65, 1.0], v: [0.5, 1.0], weight: 2 },
-          ],
-        },
-        {
-          id: "sunchips",
-          name: "Original",
-          brand: "Sun Chips",
-          color: "#C8850A",
-          swatchBg: "#FAC775",
-          profiles: [
-            { h: [28, 45], s: [0.55, 1.0], v: [0.55, 0.95], weight: 3 },
-            { h: [35, 55], s: [0.4, 0.85], v: [0.5, 0.9], weight: 1 },
-          ],
-        },
-        {
-          id: "baked_lays",
-          name: "Baked",
+          id: "lays_baked",
+          name: "Baked Original",
           brand: "Lay's",
           color: "#3A7D2C",
-          swatchBg: "#C0DD97",
           profiles: [
-            { h: [95, 135], s: [0.3, 0.85], v: [0.3, 0.75], weight: 3 },
-            { h: [85, 110], s: [0.25, 0.8], v: [0.35, 0.8], weight: 1 },
+            { h: [95, 135], s: [0.3, 0.92], v: [0.28, 0.82], w: 5 },
+            { h: [85, 105], s: [0.25, 0.88], v: [0.32, 0.8], w: 2 },
           ],
         },
         {
-          id: "kettle",
+          id: "lays_baked_bbq",
+          name: "Baked BBQ",
+          brand: "Lay's",
+          color: "#8B3A00",
+          profiles: [
+            { h: [12, 28], s: [0.4, 0.82], v: [0.38, 0.74], w: 4 },
+            { h: [165, 200], s: [0.25, 0.75], v: [0.3, 0.74], w: 2 },
+          ],
+        },
+        {
+          id: "lays_sour_cream",
+          name: "Sour Cream & Onion",
+          brand: "Lay's",
+          color: "#5C8C1A",
+          profiles: [
+            { h: [60, 96], s: [0.28, 0.88], v: [0.42, 0.9], w: 5 },
+            { h: [52, 80], s: [0.22, 0.82], v: [0.36, 0.86], w: 2 },
+          ],
+        },
+        {
+          id: "doritos_nacho",
+          name: "Nacho Cheese",
+          brand: "Doritos",
+          color: "#C43A00",
+          profiles: [
+            { h: [12, 30], s: [0.7, 1.0], v: [0.55, 1.0], w: 5 },
+            { h: [6, 20], s: [0.62, 1.0], v: [0.48, 1.0], w: 3 },
+          ],
+        },
+        {
+          id: "doritos_cool_ranch",
+          name: "Cool Ranch",
+          brand: "Doritos",
+          color: "#1A5FA8",
+          profiles: [
+            { h: [206, 234], s: [0.48, 1.0], v: [0.38, 0.95], w: 5 },
+            { h: [196, 218], s: [0.4, 1.0], v: [0.32, 0.9], w: 2 },
+          ],
+        },
+        {
+          id: "doritos_spicy",
+          name: "Spicy Nacho",
+          brand: "Doritos",
+          color: "#A01000",
+          profiles: [
+            { h: [0, 12], s: [0.68, 1.0], v: [0.32, 0.72], w: 4 },
+            { h: [348, 360], s: [0.62, 1.0], v: [0.28, 0.68], w: 3 },
+          ],
+        },
+        {
+          id: "sunchips_original",
+          name: "Original",
+          brand: "Sun Chips",
+          color: "#B87200",
+          profiles: [
+            { h: [28, 46], s: [0.5, 0.96], v: [0.48, 0.92], w: 5 },
+            { h: [34, 54], s: [0.38, 0.9], v: [0.44, 0.88], w: 2 },
+          ],
+        },
+        {
+          id: "sunchips_cheddar",
+          name: "Harvest Cheddar",
+          brand: "Sun Chips",
+          color: "#C84A00",
+          profiles: [
+            { h: [14, 34], s: [0.55, 0.98], v: [0.46, 0.9], w: 5 },
+            { h: [20, 40], s: [0.44, 0.94], v: [0.4, 0.86], w: 2 },
+          ],
+        },
+        {
+          id: "sunchips_salsa",
+          name: "Garden Salsa",
+          brand: "Sun Chips",
+          color: "#B00000",
+          profiles: [
+            { h: [0, 12], s: [0.6, 1.0], v: [0.34, 0.8], w: 5 },
+            { h: [350, 360], s: [0.56, 1.0], v: [0.3, 0.76], w: 3 },
+          ],
+        },
+        {
+          id: "ruffles_cheddar",
+          name: "Cheddar & Sour Cream",
+          brand: "Ruffles",
+          color: "#1A3A8C",
+          profiles: [
+            { h: [218, 250], s: [0.45, 0.96], v: [0.14, 0.65], w: 5 },
+            { h: [42, 62], s: [0.48, 1.0], v: [0.52, 1.0], w: 2 },
+          ],
+        },
+        {
+          id: "ruffles_original",
+          name: "Original",
+          brand: "Ruffles",
+          color: "#C8000A",
+          profiles: [
+            { h: [0, 14], s: [0.68, 1.0], v: [0.42, 0.82], w: 5 },
+            { h: [348, 360], s: [0.62, 1.0], v: [0.38, 0.78], w: 3 },
+          ],
+        },
+        {
+          id: "ruffles_baked",
+          name: "Baked",
+          brand: "Ruffles",
+          color: "#007A3D",
+          profiles: [
+            { h: [130, 170], s: [0.45, 1.0], v: [0.32, 0.84], w: 5 },
+            { h: [120, 150], s: [0.38, 0.98], v: [0.28, 0.78], w: 2 },
+          ],
+        },
+        {
+          id: "miss_vickies_orig",
+          name: "Original",
+          brand: "Miss Vickie's",
+          color: "#A03C00",
+          profiles: [
+            { h: [18, 38], s: [0.48, 0.98], v: [0.38, 0.84], w: 5 },
+            { h: [10, 26], s: [0.42, 0.92], v: [0.32, 0.78], w: 2 },
+          ],
+        },
+        {
+          id: "miss_vickies_ssv",
+          name: "Sea Salt & Vinegar",
+          brand: "Miss Vickie's",
+          color: "#006080",
+          profiles: [
+            { h: [174, 214], s: [0.38, 1.0], v: [0.22, 0.78], w: 5 },
+            { h: [184, 224], s: [0.32, 0.98], v: [0.18, 0.74], w: 2 },
+          ],
+        },
+        {
+          id: "miss_vickies_jal",
+          name: "Jalapeño",
+          brand: "Miss Vickie's",
+          color: "#4A7A00",
+          profiles: [
+            { h: [74, 118], s: [0.38, 0.98], v: [0.28, 0.84], w: 5 },
+            { h: [80, 124], s: [0.32, 0.92], v: [0.32, 0.88], w: 2 },
+          ],
+        },
+        {
+          id: "kettle_original",
           name: "Original",
           brand: "Kettle Brand",
           color: "#1A3A5C",
-          swatchBg: "#B5D4F4",
           profiles: [
-            { h: [200, 230], s: [0.4, 0.9], v: [0.2, 0.65], weight: 3 },
-            { h: [190, 215], s: [0.35, 0.85], v: [0.25, 0.7], weight: 1 },
+            { h: [198, 234], s: [0.38, 0.95], v: [0.14, 0.64], w: 5 },
+            { h: [188, 218], s: [0.3, 0.88], v: [0.18, 0.7], w: 2 },
           ],
         },
         {
-          id: "miss_vickies",
-          name: "Original",
-          brand: "Miss Vickie's",
-          color: "#B04A00",
-          swatchBg: "#F5C4B3",
+          id: "cheetos_crunchy",
+          name: "Crunchy",
+          brand: "Cheetos",
+          color: "#E05000",
           profiles: [
-            { h: [18, 35], s: [0.5, 0.95], v: [0.4, 0.8], weight: 3 },
-            { h: [10, 28], s: [0.45, 0.9], v: [0.35, 0.75], weight: 2 },
+            { h: [18, 36], s: [0.78, 1.0], v: [0.62, 1.0], w: 5 },
+            { h: [14, 28], s: [0.7, 1.0], v: [0.55, 1.0], w: 3 },
+          ],
+        },
+        {
+          id: "fritos_original",
+          name: "Original",
+          brand: "Fritos",
+          color: "#C87800",
+          profiles: [
+            { h: [24, 44], s: [0.55, 1.0], v: [0.55, 0.95], w: 5 },
+            { h: [30, 50], s: [0.45, 0.95], v: [0.48, 0.9], w: 2 },
           ],
         },
       ];
 
-      let loadedImgs = { A: null, B: null };
-
+      // ── Utilities ───────────────────────────────────────────────────
       const $ = (id) => document.getElementById(id);
-
-      function setupDrop(dropId, fileId, hintId, canvasId, fnameId, key) {
-        const drop = $(dropId),
-          file = $(fileId),
-          hint = $(hintId),
-          canvas = $(canvasId),
-          fname = $(fnameId);
-        file.addEventListener("change", (e) => {
-          if (e.target.files[0])
-            loadImg(e.target.files[0], drop, hint, canvas, fname, key);
-        });
-        drop.addEventListener("dragover", (e) => {
-          e.preventDefault();
-          drop.style.background = "var(--bg2)";
-        });
-        drop.addEventListener("dragleave", () => {
-          drop.style.background = "";
-        });
-        drop.addEventListener("drop", (e) => {
-          e.preventDefault();
-          drop.style.background = "";
-          const f = e.dataTransfer.files[0];
-          if (f && f.type.startsWith("image/"))
-            loadImg(f, drop, hint, canvas, fname, key);
-        });
-      }
-
-      function loadImg(file, drop, hint, canvas, fname, key) {
-        const url = URL.createObjectURL(file);
-        const img = new Image();
-        img.onload = () => {
-          const maxW = 340,
-            maxH = 240;
-          const ratio = Math.min(maxW / img.width, maxH / img.height, 1);
-          canvas.width = Math.round(img.width * ratio);
-          canvas.height = Math.round(img.height * ratio);
-          const ctx = canvas.getContext("2d");
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          canvas.style.display = "block";
-          hint.style.display = "none";
-          drop.classList.add("has-img");
-          fname.textContent = file.name;
-          loadedImgs[key] = { img, canvas, ratio, name: file.name };
-          URL.revokeObjectURL(url);
-        };
-        img.src = url;
-      }
-
-      $("sensitivity").addEventListener("input", function () {
-        $("sensitivityVal").textContent = this.value;
-      });
-      $("minSize").addEventListener("input", function () {
-        $("minSizeVal").textContent = this.value + "%";
-      });
 
       function rgbToHsv(r, g, b) {
         r /= 255;
@@ -776,8 +696,8 @@
         const max = Math.max(r, g, b),
           min = Math.min(r, g, b),
           d = max - min;
-        let h = 0,
-          s = max === 0 ? 0 : d / max,
+        let h = 0;
+        const s = max === 0 ? 0 : d / max,
           v = max;
         if (d !== 0) {
           if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
@@ -786,358 +706,582 @@
         }
         return { h: h * 360, s, v };
       }
-
-      function getDominantColors(imageData, sampleRate = 4) {
-        const { data, width, height } = imageData;
-        const buckets = {};
-        let total = 0;
-        for (let y = 0; y < height; y += sampleRate) {
-          for (let x = 0; x < width; x += sampleRate) {
-            const i = (y * width + x) * 4;
-            const r = data[i],
-              g = data[i + 1],
-              b = data[i + 2],
-              a = data[i + 3];
-            if (a < 128) continue;
-            const hsv = rgbToHsv(r, g, b);
-            if (hsv.v < 0.08 || hsv.v > 0.97) continue;
-            const hBucket = Math.round(hsv.h / 10) * 10;
-            const sBucket = Math.round(hsv.s * 5) / 5;
-            const vBucket = Math.round(hsv.v * 4) / 4;
-            const key = `${hBucket}_${sBucket}_${vBucket}`;
-            buckets[key] = (buckets[key] || 0) + 1;
-            total++;
-          }
-        }
-        return { buckets, total };
+      function hOk(p, hue) {
+        const lo = p.h[0],
+          hi = p.h[1];
+        return lo <= hi ? hue >= lo && hue <= hi : hue >= lo || hue <= hi;
+      }
+      function isBg(h, s, v) {
+        return v < 0.08 || v > 0.97 || s < 0.09 || (v < 0.3 && s < 0.26);
       }
 
-      function matchChip(buckets, total, sensitivity) {
-        const scores = {};
-        for (const chip of CHIPS) scores[chip.id] = 0;
-        let maxPossible = 0;
-
-        for (const [key, count] of Object.entries(buckets)) {
-          const [hStr, sStr, vStr] = key.split("_");
-          const h = parseFloat(hStr),
-            s = parseFloat(sStr),
-            v = parseFloat(vStr);
-          const frac = count / total;
-
-          for (const chip of CHIPS) {
-            for (const profile of chip.profiles) {
-              const hLow = profile.h[0],
-                hHigh = profile.h[1];
-              const hMatch =
-                hLow <= hHigh
-                  ? h >= hLow && h <= hHigh
-                  : h >= hLow || h <= hHigh;
-              const sMatch = s >= profile.s[0] && s <= profile.s[1];
-              const vMatch = v >= profile.v[0] && v <= profile.v[1];
-              if (hMatch && sMatch && vMatch) {
-                scores[chip.id] += frac * profile.weight;
-              }
-            }
-          }
+      // ── Background estimation (corner sampling) ─────────────────────
+      function estimateBgSamples(ctx, W, H) {
+        const sz = Math.round(Math.min(W, H) * 0.09);
+        const corners = [
+          [0, 0],
+          [W - sz, 0],
+          [0, H - sz],
+          [W - sz, H - sz],
+        ];
+        const out = [];
+        for (const [cx, cy] of corners) {
+          const d = ctx.getImageData(
+            Math.max(0, cx),
+            Math.max(0, cy),
+            sz,
+            sz
+          ).data;
+          for (let i = 0; i < d.length; i += 20)
+            out.push(rgbToHsv(d[i], d[i + 1], d[i + 2]));
         }
-
-        let best = null,
-          bestScore = 0;
-        for (const chip of CHIPS) {
-          if (scores[chip.id] > bestScore) {
-            bestScore = scores[chip.id];
-            best = chip.id;
-          }
-        }
-
-        const threshold = (0.04 / sensitivity) * 5;
-        if (bestScore < threshold) return { id: "unknown", score: bestScore };
-        return { id: best, score: bestScore };
+        return out;
       }
-
-      function detectBagRegions(canvas, minSizePct) {
-        const ctx = canvas.getContext("2d");
-        const W = canvas.width,
-          H = canvas.height;
-        const imageData = ctx.getImageData(0, 0, W, H);
-        const data = imageData.data;
-
-        const minArea = (minSizePct / 100) * W * H;
-        const regions = [];
-        const gridX = 3,
-          gridY = 4;
-        const stepX = Math.floor(W / gridX),
-          stepY = Math.floor(H / gridY);
-
-        for (let gy = 0; gy < gridY; gy++) {
-          for (let gx = 0; gx < gridX; gx++) {
-            const x1 = gx * stepX,
-              y1 = gy * stepY;
-            const x2 = Math.min(x1 + stepX, W),
-              y2 = Math.min(y1 + stepY, H);
-            const rW = x2 - x1,
-              rH = y2 - y1;
-            if (rW * rH < minArea * 0.5) continue;
-
-            let edgeCount = 0,
-              total = 0;
-            for (let y = y1 + 1; y < y2 - 1; y += 2) {
-              for (let x = x1 + 1; x < x2 - 1; x += 2) {
-                const i = (y * W + x) * 4;
-                const il = (y * W + (x - 1)) * 4;
-                const ir = (y * W + (x + 1)) * 4;
-                const it = ((y - 1) * W + x) * 4;
-                const ib = ((y + 1) * W + x) * 4;
-                const dR =
-                  Math.abs(data[il] - data[ir]) + Math.abs(data[it] - data[ib]);
-                const dG =
-                  Math.abs(data[il + 1] - data[ir + 1]) +
-                  Math.abs(data[it + 1] - data[ib + 1]);
-                const dB =
-                  Math.abs(data[il + 2] - data[ir + 2]) +
-                  Math.abs(data[it + 2] - data[ib + 2]);
-                if (dR + dG + dB > 60) edgeCount++;
-                total++;
-              }
-            }
-            const edgeDensity = edgeCount / total;
-            if (edgeDensity > 0.05) {
-              regions.push({ x1, y1, x2, y2 });
-            }
-          }
-        }
-
-        if (regions.length === 0) {
-          const sliceH = Math.floor(H / 4);
-          for (let s = 0; s < 4; s++) {
-            regions.push({
-              x1: 0,
-              y1: s * sliceH,
-              x2: W,
-              y2: Math.min((s + 1) * sliceH, H),
-            });
-          }
-        }
-
-        return regions;
-      }
-
-      function analyzeImage(canvas, sensitivity, minSizePct) {
-        const ctx = canvas.getContext("2d");
-        const regions = detectBagRegions(canvas, minSizePct);
-        const detections = [];
-
-        for (const reg of regions) {
-          const rW = reg.x2 - reg.x1,
-            rH = reg.y2 - reg.y1;
-          if (rW < 10 || rH < 10) continue;
-          const imageData = ctx.getImageData(reg.x1, reg.y1, rW, rH);
-          const { buckets, total } = getDominantColors(imageData, 3);
-          if (total < 10) continue;
-          const match = matchChip(buckets, total, sensitivity);
-          detections.push({ region: reg, match, imageData });
-        }
-
-        return detections;
-      }
-
-      function drawResults(canvas, detections, source) {
-        const ctx = canvas.getContext("2d");
-        const img = loadedImgs[source];
-        ctx.drawImage(img.img, 0, 0, canvas.width, canvas.height);
-
-        for (const det of detections) {
-          const { region, match } = det;
-          if (match.id === "unknown") continue;
-          const chip = CHIPS.find((c) => c.id === match.id);
-          if (!chip) continue;
-
-          ctx.strokeStyle = chip.color;
-          ctx.lineWidth = 2.5;
-          ctx.strokeRect(
-            region.x1,
-            region.y1,
-            region.x2 - region.x1,
-            region.y2 - region.y1
+      function isBgLike(hsv, samples) {
+        let m = 0;
+        for (const b of samples) {
+          const dh = Math.min(
+            Math.abs(hsv.h - b.h),
+            360 - Math.abs(hsv.h - b.h)
           );
-
-          const label = `${chip.brand} ${chip.name}`;
-          ctx.font = "bold 11px sans-serif";
-          const tw = ctx.measureText(label).width + 8;
-          ctx.fillStyle = chip.color;
-          ctx.fillRect(region.x1, region.y1 - 18, tw, 18);
-          ctx.fillStyle = "#fff";
-          ctx.fillText(label, region.x1 + 4, region.y1 - 5);
+          if (
+            dh < 24 &&
+            Math.abs(hsv.s - b.s) < 0.24 &&
+            Math.abs(hsv.v - b.v) < 0.24
+          )
+            m++;
         }
+        return m / samples.length > 0.32;
+      }
+
+      // ── Row detection ───────────────────────────────────────────────
+      function detectRows(ctx, W, H, bg) {
+        const act = new Float32Array(H);
+        for (let y = 0; y < H; y++) {
+          const d = ctx.getImageData(0, y, W, 1).data;
+          let sat = 0,
+            cnt = 0;
+          for (let x = 0; x < W; x += 4) {
+            const i = x * 4,
+              hsv = rgbToHsv(d[i], d[i + 1], d[i + 2]);
+            if (isBg(hsv.h, hsv.s, hsv.v) || isBgLike(hsv, bg)) continue;
+            sat += hsv.s;
+            cnt++;
+          }
+          act[y] = cnt > 4 ? sat / cnt : 0;
+        }
+        const sm = new Float32Array(H);
+        const k = 6;
+        for (let y = 0; y < H; y++) {
+          let s = 0,
+            n = 0;
+          for (let d = -k; d <= k; d++) {
+            const yy = y + d;
+            if (yy >= 0 && yy < H) {
+              s += act[yy];
+              n++;
+            }
+          }
+          sm[y] = s / n;
+        }
+        const sorted = [...sm].sort((a, b) => b - a);
+        const thresh = sorted[Math.floor(H * 0.28)] * 0.35;
+        const bands = [];
+        let inB = false,
+          bs = 0;
+        for (let y = 0; y < H; y++) {
+          if (!inB && sm[y] > thresh) {
+            inB = true;
+            bs = y;
+          } else if (inB && sm[y] <= thresh) {
+            if (y - bs > H * 0.04) bands.push({ y1: bs, y2: y });
+            inB = false;
+          }
+        }
+        if (inB && H - bs > H * 0.04) bands.push({ y1: bs, y2: H });
+        if (!bands.length) {
+          const s = Math.floor(H / 4);
+          for (let i = 0; i < 4; i++)
+            bands.push({ y1: i * s, y2: (i + 1) * s });
+        }
+        return bands;
+      }
+
+      // ── Column segmentation within a row ────────────────────────────
+      function detectColumns(ctx, W, y1, y2, bg) {
+        const rh = y2 - y1;
+        const act = new Float32Array(W);
+        for (let x = 0; x < W; x++) {
+          const d = ctx.getImageData(x, y1, 1, rh).data;
+          let sat = 0,
+            cnt = 0;
+          for (let y = 0; y < rh; y += 3) {
+            const i = y * 4,
+              hsv = rgbToHsv(d[i], d[i + 1], d[i + 2]);
+            if (isBg(hsv.h, hsv.s, hsv.v) || isBgLike(hsv, bg)) continue;
+            sat += hsv.s;
+            cnt++;
+          }
+          act[x] = cnt > 2 ? sat / cnt : 0;
+        }
+        const sm = new Float32Array(W);
+        const k = 4;
+        for (let x = 0; x < W; x++) {
+          let s = 0,
+            n = 0;
+          for (let d = -k; d <= k; d++) {
+            const xx = x + d;
+            if (xx >= 0 && xx < W) {
+              s += act[xx];
+              n++;
+            }
+          }
+          sm[x] = s / n;
+        }
+        const mx = Math.max(...sm);
+        const thresh = mx * 0.2;
+        const segs = [];
+        let inS = false,
+          ss = 0;
+        for (let x = 0; x < W; x++) {
+          if (!inS && sm[x] > thresh) {
+            inS = true;
+            ss = x;
+          } else if (inS && sm[x] <= thresh) {
+            if (x - ss > W * 0.03) segs.push({ x1: ss, x2: x });
+            inS = false;
+          }
+        }
+        if (inS && W - ss > W * 0.03) segs.push({ x1: ss, x2: W });
+        return segs.length ? segs : [{ x1: 0, x2: W }];
+      }
+
+      // ── k-means dominant colors ──────────────────────────────────────
+      function kMeans(pixels, k = 3) {
+        if (pixels.length < k) return pixels.map((p) => ({ ...p, count: 1 }));
+        const step = Math.floor(pixels.length / k);
+        let centers = Array.from({ length: k }, (_, i) => ({
+          ...pixels[i * step],
+        }));
+        for (let iter = 0; iter < 14; iter++) {
+          const sums = centers.map(() => ({ h: 0, s: 0, v: 0, n: 0 }));
+          for (const p of pixels) {
+            let bi = 0,
+              bd = Infinity;
+            for (let ci = 0; ci < centers.length; ci++) {
+              const dh = Math.min(
+                Math.abs(p.h - centers[ci].h),
+                360 - Math.abs(p.h - centers[ci].h)
+              );
+              const d =
+                dh * dh * 0.5 +
+                (p.s - centers[ci].s) ** 2 * 60 +
+                (p.v - centers[ci].v) ** 2 * 60;
+              if (d < bd) {
+                bd = d;
+                bi = ci;
+              }
+            }
+            sums[bi].h += p.h;
+            sums[bi].s += p.s;
+            sums[bi].v += p.v;
+            sums[bi].n++;
+          }
+          centers = sums.map((s, i) =>
+            s.n > 0 ? { h: s.h / s.n, s: s.s / s.n, v: s.v / s.n } : centers[i]
+          );
+        }
+        const counts = new Array(k).fill(0);
+        for (const p of pixels) {
+          let bi = 0,
+            bd = Infinity;
+          for (let ci = 0; ci < centers.length; ci++) {
+            const dh = Math.min(
+              Math.abs(p.h - centers[ci].h),
+              360 - Math.abs(p.h - centers[ci].h)
+            );
+            const d =
+              dh * dh * 0.5 +
+              (p.s - centers[ci].s) ** 2 * 60 +
+              (p.v - centers[ci].v) ** 2 * 60;
+            if (d < bd) {
+              bd = d;
+              bi = ci;
+            }
+          }
+          counts[bi]++;
+        }
+        return centers
+          .map((c, i) => ({ ...c, count: counts[i] }))
+          .sort((a, b) => b.count - a.count);
+      }
+
+      // ── Identify a single bag region ─────────────────────────────────
+      function identifySegment(ctx, x1, y1, x2, y2, bg) {
+        const sw = x2 - x1,
+          sh = y2 - y1;
+        if (sw < 8 || sh < 8) return null;
+        const data = ctx.getImageData(x1, y1, sw, sh).data;
+        const pixels = [];
+        const step = Math.max(1, Math.round(Math.min(sw, sh) / 22));
+        for (let py = 0; py < sh; py += step) {
+          for (let px = 0; px < sw; px += step) {
+            const i = (py * sw + px) * 4;
+            if (data[i + 3] < 128) continue;
+            const hsv = rgbToHsv(data[i], data[i + 1], data[i + 2]);
+            if (isBg(hsv.h, hsv.s, hsv.v) || isBgLike(hsv, bg)) continue;
+            pixels.push(hsv);
+          }
+        }
+        if (pixels.length < 10) return null;
+        const k = Math.min(3, Math.max(1, Math.ceil(pixels.length / 8)));
+        const dominant = kMeans(pixels, k);
+        const total = pixels.length;
+        const scores = {};
+        for (const c of CHIPS) scores[c.id] = 0;
+        // Score dominant clusters (weighted by cluster size)
+        for (const dom of dominant) {
+          const w = (dom.count || 1) / total;
+          for (const c of CHIPS) {
+            for (const p of c.profiles) {
+              if (
+                hOk(p, dom.h) &&
+                dom.s >= p.s[0] &&
+                dom.s <= p.s[1] &&
+                dom.v >= p.v[0] &&
+                dom.v <= p.v[1]
+              )
+                scores[c.id] += p.w * w * 3;
+            }
+          }
+        }
+        // Also sweep individual pixels
+        for (const px of pixels) {
+          for (const c of CHIPS) {
+            for (const p of c.profiles) {
+              if (
+                hOk(p, px.h) &&
+                px.s >= p.s[0] &&
+                px.s <= p.s[1] &&
+                px.v >= p.v[0] &&
+                px.v <= p.v[1]
+              )
+                scores[c.id] += p.w / total;
+            }
+          }
+        }
+        const ranked = CHIPS.map((c) => ({ c, sc: scores[c.id] })).sort(
+          (a, b) => b.sc - a.sc
+        );
+        const best = ranked[0],
+          second = ranked[1];
+        if (best.sc < 0.005) return null;
+        const margin =
+          second && second.sc > 0 ? (best.sc - second.sc) / best.sc : 1;
+        if (margin < 0.1) return null;
+        return { chip: best.c, confidence: Math.min(1, best.sc / 0.06) };
+      }
+
+      // ── Merge adjacent same-chip segments ───────────────────────────
+      function mergeSegs(segs) {
+        if (segs.length < 2) return segs;
+        const out = [];
+        let cur = { ...segs[0], count: segs[0].count || 1 };
+        for (let i = 1; i < segs.length; i++) {
+          const s = segs[i];
+          if (
+            cur.chip &&
+            s.chip &&
+            cur.chip.id === s.chip.id &&
+            s.x1 - cur.x2 < 32
+          ) {
+            cur.x2 = s.x2;
+            cur.count = (cur.count || 1) + (s.count || 1);
+            cur.confidence = Math.max(cur.confidence || 0, s.confidence || 0);
+          } else {
+            out.push(cur);
+            cur = { ...s, count: s.count || 1 };
+          }
+        }
+        out.push(cur);
+        return out;
+      }
+
+      // ── Debug overlay ────────────────────────────────────────────────
+      function drawDebug(img, rows, allSegs) {
+        const dbg = $("debugCanvas");
+        const maxW = 680,
+          r = Math.min(maxW / img.naturalWidth, 1);
+        dbg.width = Math.round(img.naturalWidth * r);
+        dbg.height = Math.round(img.naturalHeight * r);
+        const ctx = dbg.getContext("2d");
+        ctx.drawImage(img, 0, 0, dbg.width, dbg.height);
+        for (const row of rows) {
+          ctx.strokeStyle = "rgba(255,255,255,0.30)";
+          ctx.lineWidth = 1;
+          ctx.strokeRect(0, row.y1, dbg.width, row.y2 - row.y1);
+        }
+        for (const seg of allSegs) {
+          if (!seg.chip) continue;
+          ctx.strokeStyle = seg.chip.color;
+          ctx.lineWidth = 2;
+          ctx.strokeRect(
+            seg.x1 + 1,
+            seg.y1 + 1,
+            seg.x2 - seg.x1 - 2,
+            seg.y2 - seg.y1 - 2
+          );
+          const lbl = `${seg.chip.brand} ${seg.chip.name}${
+            seg.count > 1 ? " ×" + seg.count : ""
+          }`;
+          ctx.font = "bold 10px sans-serif";
+          const tw = ctx.measureText(lbl).width + 6;
+          ctx.fillStyle = seg.chip.color;
+          ctx.fillRect(seg.x1 + 1, seg.y1 + 1, tw, 16);
+          ctx.fillStyle = "#fff";
+          ctx.fillText(lbl, seg.x1 + 4, seg.y1 + 12);
+        }
+        $("debugWrap").classList.add("show");
+      }
+
+      // ── Main analysis ────────────────────────────────────────────────
+      function analyze(img) {
+        const maxW = 880,
+          maxH = 880;
+        const r = Math.min(
+          maxW / img.naturalWidth,
+          maxH / img.naturalHeight,
+          1
+        );
+        const W = Math.round(img.naturalWidth * r),
+          H = Math.round(img.naturalHeight * r);
+        const offscreen = document.createElement("canvas");
+        offscreen.width = W;
+        offscreen.height = H;
+        const ctx = offscreen.getContext("2d");
+        ctx.drawImage(img, 0, 0, W, H);
+
+        const bg = estimateBgSamples(ctx, W, H);
+        const rows = detectRows(ctx, W, H, bg);
+        const rowResults = [];
+        const allSegs = [];
+
+        for (let ri = 0; ri < rows.length; ri++) {
+          const { y1, y2 } = rows[ri];
+          const cols = detectColumns(ctx, W, y1, y2, bg);
+          const raw = cols.map((col) => {
+            const id = identifySegment(ctx, col.x1, y1, col.x2, y2, bg);
+            return {
+              x1: col.x1,
+              x2: col.x2,
+              y1,
+              y2,
+              chip: id ? id.chip : null,
+              confidence: id ? id.confidence : 0,
+              count: 1,
+            };
+          });
+          const merged = mergeSegs(raw);
+          const chipMap = {};
+          for (const seg of merged) {
+            if (!seg.chip) continue;
+            if (!chipMap[seg.chip.id])
+              chipMap[seg.chip.id] = {
+                chip: seg.chip,
+                visibleSlots: 0,
+                confidence: 0,
+              };
+            chipMap[seg.chip.id].visibleSlots += seg.count || 1;
+            chipMap[seg.chip.id].confidence = Math.max(
+              chipMap[seg.chip.id].confidence,
+              seg.confidence || 0
+            );
+          }
+          allSegs.push(...merged.filter((s) => s.chip));
+          rowResults.push({
+            rowIdx: ri + 1,
+            y1,
+            y2,
+            chips: Object.values(chipMap),
+          });
+        }
+
+        drawDebug(img, rows, allSegs);
+        return rowResults;
+      }
+
+      // ── State & events ────────────────────────────────────────────────
+      let loadedImg = null;
+      const dropZone = $("dropZone"),
+        fileInput = $("fileInput"),
+        prevCanvas = $("prevCanvas"),
+        dropHint = $("dropHint");
+
+      fileInput.addEventListener("change", (e) => {
+        if (e.target.files[0]) loadFile(e.target.files[0]);
+      });
+      dropZone.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dropZone.style.borderColor = "var(--ink)";
+      });
+      dropZone.addEventListener("dragleave", () => {
+        dropZone.style.borderColor = "";
+      });
+      dropZone.addEventListener("drop", (e) => {
+        e.preventDefault();
+        dropZone.style.borderColor = "";
+        const f = e.dataTransfer.files[0];
+        if (f && f.type.startsWith("image/")) loadFile(f);
+      });
+      function loadFile(f) {
+        const url = URL.createObjectURL(f);
+        const img = new Image();
+        img.onload = () => {
+          const maxW = 640,
+            maxH = 480,
+            r = Math.min(maxW / img.naturalWidth, maxH / img.naturalHeight, 1);
+          prevCanvas.width = Math.round(img.naturalWidth * r);
+          prevCanvas.height = Math.round(img.naturalHeight * r);
+          prevCanvas
+            .getContext("2d")
+            .drawImage(img, 0, 0, prevCanvas.width, prevCanvas.height);
+          prevCanvas.style.display = "block";
+          dropHint.style.display = "none";
+          dropZone.classList.add("has");
+          loadedImg = img;
+          URL.revokeObjectURL(url);
+        };
+        img.onerror = () => showErr("Could not load image.");
+        img.src = url;
       }
 
       $("analyzeBtn").addEventListener("click", () => {
         hideErr();
         $("results").style.display = "none";
-        const sensitivity = parseInt($("sensitivity").value);
-        const minSizePct = parseInt($("minSize").value);
-
-        const toProcess = [];
-        if (loadedImgs.A)
-          toProcess.push({ data: loadedImgs.A, key: "A", label: "front" });
-        if (loadedImgs.B)
-          toProcess.push({ data: loadedImgs.B, key: "B", label: "back" });
-
-        if (toProcess.length === 0) {
-          showErr("Please upload at least one shelf photo.");
+        $("debugWrap").classList.remove("show");
+        if (!loadedImg) {
+          showErr("Please upload a photo first.");
           return;
         }
-
-        setStatus('<span class="spinner"></span> Analyzing…');
+        const bpr = Math.max(1, parseInt($("bagsPerRow").value, 10) || 4);
+        setStatus('<span class="spin"></span> Analyzing…');
         $("analyzeBtn").disabled = true;
-
         setTimeout(() => {
           try {
-            const allDetections = [];
-            let imgsUsed = 0;
-
-            for (const { data, key, label } of toProcess) {
-              const dets = analyzeImage(data.canvas, sensitivity, minSizePct);
-              for (const d of dets) d.source = label;
-              drawResults(data.canvas, dets, key);
-              allDetections.push(...dets);
-              imgsUsed++;
-            }
-
-            const counts = {};
-            const confMap = {};
-            for (const det of allDetections) {
-              if (det.match.id === "unknown") continue;
-              counts[det.match.id] = (counts[det.match.id] || 0) + 1;
-              if (!confMap[det.match.id]) confMap[det.match.id] = [];
-              confMap[det.match.id].push(det.match.score);
-            }
-
-            const total = Object.values(counts).reduce((a, b) => a + b, 0);
-            const varieties = Object.keys(counts).length;
-
-            $("sTotal").textContent = total;
-            $("sVarieties").textContent = varieties;
-            $("sImgs").textContent = imgsUsed;
-            $("totalBadge").textContent =
-              total + " bag" + (total !== 1 ? "s" : "") + " detected";
-
-            const grid = $("chipsGrid");
-            grid.innerHTML = "";
-            const tbody = $("tbody");
-            tbody.innerHTML = "";
-            const maxCount = Math.max(...Object.values(counts), 1);
-
-            const sorted = CHIPS.filter((c) => counts[c.id]).sort(
-              (a, b) => (counts[b.id] || 0) - (counts[a.id] || 0)
-            );
-
-            for (const chip of sorted) {
-              const count = counts[chip.id] || 0;
-              const avgConf = confMap[chip.id]
-                ? confMap[chip.id].reduce((a, b) => a + b, 0) /
-                  confMap[chip.id].length
-                : 0;
-              const pct = Math.round((count / maxCount) * 100);
-              const confPct = Math.min(100, Math.round((avgConf * 100) / 0.3));
-
-              const card = document.createElement("div");
-              card.className = "chip-card";
-              card.innerHTML = `
-          <div class="chip-swatch" style="background:${chip.swatchBg};">
-            <svg viewBox="0 0 24 24" fill="none" stroke="${
-              chip.color
-            }" stroke-width="2">
-              <rect x="4" y="6" width="16" height="14" rx="3"/>
-              <path d="M8 6V4a4 4 0 0 1 8 0v2"/>
-              <path d="M9 12h6M9 15h4"/>
-            </svg>
-          </div>
-          <div class="chip-info">
-            <div class="chip-brand">${chip.brand}</div>
-            <div class="chip-name">${chip.name}</div>
-            <div class="chip-count">${count} <span class="chip-unit">bag${
-                count !== 1 ? "s" : ""
-              }</span></div>
-          </div>
-        `;
-              grid.appendChild(card);
-
-              const tr = document.createElement("tr");
-              tr.innerHTML = `
-          <td>
-            <div class="name-cell">
-              <span class="tdot" style="background:${chip.color}"></span>
-              <div>
-                <span>${chip.brand} ${chip.name}</span>
-              </div>
-            </div>
-          </td>
-          <td><span style="font-size:13px;">${confPct}%</span></td>
-          <td><div class="bar-wrap"><div class="bar-fill" style="width:0%;background:${chip.color}" data-pct="${pct}"></div></div></td>
-          <td><span class="count-pill">${count}</span></td>
-        `;
-              tbody.appendChild(tr);
-            }
-
-            if (sorted.length === 0) {
-              tbody.innerHTML = `<tr><td colspan="4" style="padding:20px 12px;color:var(--text3);font-size:13px;">No chip bags confidently matched. Try lowering the sensitivity or uploading a clearer, closer photo.</td></tr>`;
-            }
-
-            const legendGrid = $("legendGrid");
-            legendGrid.innerHTML = "";
-            for (const chip of CHIPS) {
-              const item = document.createElement("div");
-              item.className = "legend-item";
-              item.innerHTML = `<span class="legend-swatch" style="background:${chip.color}"></span>${chip.brand} ${chip.name}`;
-              legendGrid.appendChild(item);
-            }
-
-            setTimeout(() => {
-              document.querySelectorAll(".bar-fill").forEach((el) => {
-                el.style.width = el.dataset.pct + "%";
-              });
-            }, 50);
-
-            $("results").style.display = "block";
-            setStatus("");
-            $("analyzeBtn").disabled = false;
+            const rows = analyze(loadedImg);
+            renderResults(rows, bpr);
           } catch (e) {
+            showErr("Error: " + e.message);
+          } finally {
             setStatus("");
             $("analyzeBtn").disabled = false;
-            showErr("Analysis error: " + e.message);
           }
-        }, 30);
+        }, 40);
       });
 
       $("resetBtn").addEventListener("click", () => {
-        loadedImgs = { A: null, B: null };
-        ["A", "B"].forEach((k) => {
-          $("canvas" + k).style.display = "none";
-          $("hint" + k).style.display = "";
-          $("fname" + k).textContent = "";
-          $("drop" + k).classList.remove("has-img");
-          $("file" + k).value = "";
-        });
+        loadedImg = null;
+        prevCanvas.style.display = "none";
+        dropHint.style.display = "";
+        dropZone.classList.remove("has");
+        fileInput.value = "";
         $("results").style.display = "none";
+        $("debugWrap").classList.remove("show");
         hideErr();
         setStatus("");
       });
 
-      function showErr(msg) {
+      // ── Render results ───────────────────────────────────────────────
+      const PALETTE = [
+        "#e8400a",
+        "#f5a623",
+        "#d4a800",
+        "#4caf50",
+        "#2196f3",
+        "#9c27b0",
+        "#00bcd4",
+        "#ff5722",
+        "#3f51b5",
+        "#8bc34a",
+        "#ff9800",
+        "#e91e63",
+        "#009688",
+        "#795548",
+      ];
+      const colorMap = {};
+      let colorIdx = 0;
+      function chipColor(id) {
+        if (!colorMap[id]) {
+          colorMap[id] = PALETTE[colorIdx++ % PALETTE.length];
+        }
+        return colorMap[id];
+      }
+
+      function renderResults(rows, bpr) {
+        Object.keys(colorMap).forEach((k) => delete colorMap[k]);
+        colorIdx = 0;
+        const list = $("rowList");
+        list.innerHTML = "";
+        let grand = 0,
+          rowCount = 0;
+        for (const row of rows) {
+          if (!row.chips || !row.chips.length) continue;
+          rowCount++;
+          const rowTotal = row.chips.reduce(
+            (s, c) => s + c.visibleSlots * bpr,
+            0
+          );
+          grand += rowTotal;
+          const card = document.createElement("div");
+          card.className = "row-card";
+          card.innerHTML = `<div class="row-hdr"><span class="row-lbl">Row ${row.rowIdx}</span><span class="row-sub">${rowTotal} bags</span></div>`;
+          for (const cc of row.chips) {
+            const qty = cc.visibleSlots * bpr;
+            const col = chipColor(cc.chip.id);
+            const confPct = Math.round((cc.confidence || 0) * 100);
+            const item = document.createElement("div");
+            item.className = "chip-item";
+            item.innerHTML = `
+        <span class="chip-dot" style="background:${col}"></span>
+        <div style="flex:1">
+          <div class="chip-name">${esc(cc.chip.name)}</div>
+          <div class="chip-brand">${esc(cc.chip.brand)}</div>
+        </div>
+        <span class="chip-conf">${confPct}%</span>
+        <div class="chip-qty">${qty}<span class="chip-unit"> bag${
+              qty !== 1 ? "s" : ""
+            }</span></div>`;
+            card.appendChild(item);
+          }
+          list.appendChild(card);
+        }
+        $("rowTag").textContent =
+          rowCount + " row" + (rowCount !== 1 ? "s" : "") + " detected";
+        $("grandTotal").textContent = grand;
+        $("footNote").textContent =
+          "Confidence % shows how clearly each bag was identified. Low % = verify manually. Each count = visible slots × depth (" +
+          bpr +
+          ").";
+        $("results").style.display = "block";
+      }
+
+      function esc(s) {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+      function showErr(m) {
         const b = $("errBox");
-        b.textContent = msg;
+        b.textContent = m;
         b.classList.add("show");
       }
       function hideErr() {
         $("errBox").classList.remove("show");
       }
-      function setStatus(html) {
-        $("statusEl").innerHTML = html;
+      function setStatus(h) {
+        $("statusEl").innerHTML = h;
       }
-
-      setupDrop("dropA", "fileA", "hintA", "canvasA", "fnameA", "A");
-      setupDrop("dropB", "fileB", "hintB", "canvasB", "fnameB", "B");
     </script>
   </body>
 </html>
