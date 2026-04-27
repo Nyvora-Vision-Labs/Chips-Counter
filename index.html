@@ -194,7 +194,11 @@
           <div class="res-label">Bags in Stock</div>
         </div>
         <div class="chip-list" id="finalCounts"></div>
-        <button class="btn" onclick="goToStep1()" style="margin-top: 2rem">Start New Count</button>
+        <div class="btn-row" style="justify-content: center; margin-top: 2rem">
+          <button class="btn" id="toggleDetailsBtn" onclick="toggleDetails()">Show Detailed Breakdown</button>
+          <button class="btn pri" onclick="goToStep1()">Start New Count</button>
+        </div>
+        <div id="detailedResults" style="display: none; margin-top: 2rem"></div>
       </div>
     </div>
 
@@ -271,7 +275,8 @@
         btn.disabled = true;
         
         let totalAggregate = 0;
-        let chipTotals = {};
+        let chipTotalsRaw = {};
+        let detailedData = [];
 
         const fileKeys = Object.keys(files);
         if (fileKeys.length === 0) {
@@ -293,40 +298,108 @@
             const data = await res.json();
             
             if (data.ok) {
+              detailedData.push({
+                key: key,
+                counts: data.counts,
+                total: data.total,
+                annotated_url: data.annotated_url
+              });
               // Visible bags in this photo * stack depth
               Object.entries(data.counts).forEach(([name, count]) => {
+                chipTotalsRaw[name] = (chipTotalsRaw[name] || 0) + count;
                 const weighted = count * config.depth;
-                chipTotals[name] = (chipTotals[name] || 0) + weighted;
                 totalAggregate += weighted;
               });
+            } else {
+              console.error(`Backend error for ${key}:`, data.error, data.traceback || '');
+              alert(`Error analyzing ${key.replace('_', ' ')}:\n${data.error}`);
             }
           } catch (e) {
             console.error("Error analyzing " + key, e);
           }
         }
 
-        renderResults(totalAggregate, chipTotals);
+        renderResults(totalAggregate, chipTotalsRaw, detailedData, config.depth);
         btn.disabled = false;
         status.innerHTML = '';
       }
 
-      function renderResults(total, counts) {
+      function renderResults(total, countsRaw, detailedData, depth) {
         document.getElementById('grandTotal').textContent = total;
         const list = document.getElementById('finalCounts');
         list.innerHTML = '';
 
-        Object.entries(counts).sort((a,b) => b[1] - a[1]).forEach(([name, count]) => {
+        Object.entries(countsRaw).sort((a,b) => b[1] - a[1]).forEach(([name, rawCount]) => {
           const item = document.createElement('div');
           item.className = 'chip-item';
           item.innerHTML = `
             <div class="chip-name">${name}</div>
-            <div class="chip-count">${count}</div>
+            <div class="chip-count">${rawCount} * ${depth} = ${rawCount * depth}</div>
           `;
           list.appendChild(item);
         });
 
+        const detailsContainer = document.getElementById('detailedResults');
+        detailsContainer.innerHTML = '';
+        
+        // Group detailed data by rack
+        const racks = {};
+        detailedData.forEach(item => {
+          const match = item.key.match(/rack(\d+)/);
+          const rackNum = match ? match[1] : 'Other';
+          if (!racks[rackNum]) racks[rackNum] = [];
+          racks[rackNum].push(item);
+        });
+
+        Object.keys(racks).sort((a, b) => (parseInt(a) || 999) - (parseInt(b) || 999)).forEach(rackNum => {
+          const rackItems = racks[rackNum];
+          
+          let rackHtml = `<div class="rack-group" style="margin-top: 2rem;">`;
+          rackHtml += `<div class="rack-title" style="text-align: center; font-size: 22px; margin-bottom: 1.5rem;">RACK ${rackNum} BREAKDOWN</div>`;
+          rackHtml += `<div class="upload-grid">`; // uses the existing 1fr 1fr grid
+          
+          rackItems.forEach(item => {
+            const side = item.key.includes('front') ? 'FRONT VIEW' : 'BACK VIEW';
+            let tableHtml = '<div class="chip-list" style="margin-top: 0; border: 1px solid var(--border); padding: 1.5rem; border-radius: var(--rl); background: white;">';
+            tableHtml += `<div class="rack-title" style="margin-bottom: 1rem; text-align: center; font-size: 16px;">${side} &nbsp;—&nbsp; TOTAL: ${item.total} * ${depth} = ${item.total * depth}</div>`;
+            tableHtml += `<img src="${item.annotated_url}" style="width:100%; border-radius: var(--r); margin-bottom: 1.5rem; max-height: 400px; object-fit: contain; background: var(--paper);" />`;
+            
+            const sortedCounts = Object.entries(item.counts).sort((a,b) => b[1] - a[1]);
+            if (sortedCounts.length === 0) {
+              tableHtml += `<div style="text-align: center; font-size: 14px; color: var(--ink3); padding: 1rem;">No chips detected</div>`;
+            } else {
+              sortedCounts.forEach(([name, rawCount]) => {
+                tableHtml += `<div class="chip-item" style="padding: 0.75rem 0;">
+                  <div class="chip-name" style="font-size: 14px;">${name}</div>
+                  <div class="chip-count">${rawCount} * ${depth} = ${rawCount * depth}</div>
+                </div>`;
+              });
+            }
+            tableHtml += '</div>';
+            rackHtml += tableHtml;
+          });
+          
+          rackHtml += `</div></div>`;
+          detailsContainer.innerHTML += rackHtml;
+        });
+
+        document.getElementById('detailedResults').style.display = 'none';
+        document.getElementById('toggleDetailsBtn').textContent = 'Show Detailed Breakdown';
+
         document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
         document.getElementById('step3').classList.add('active');
+      }
+
+      function toggleDetails() {
+        const detailsContainer = document.getElementById('detailedResults');
+        const btn = document.getElementById('toggleDetailsBtn');
+        if (detailsContainer.style.display === 'none') {
+          detailsContainer.style.display = 'block';
+          btn.textContent = 'Hide Detailed Breakdown';
+        } else {
+          detailsContainer.style.display = 'none';
+          btn.textContent = 'Show Detailed Breakdown';
+        }
       }
     </script>
   </body>

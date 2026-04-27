@@ -41,22 +41,22 @@ def index():
 
 @app.route("/detect", methods=["POST"])
 def detect():
-    if "image" not in request.files:
-        return jsonify({"error": "No image uploaded"}), 400
-
-    f = request.files["image"]
-    ext = Path(f.filename).suffix.lower()
-    if ext not in ALLOWED:
-        return jsonify({"error": f"Unsupported file type: {ext}"}), 400
-
-    # Save uploaded file to a temp path
-    uid = uuid.uuid4().hex[:8]
-    save_path = UPLOAD_DIR / f"rack_{uid}{ext}"
-    f.save(str(save_path))
-
-    threshold = float(request.form.get("threshold", CLIP_THRESHOLD))
-
     try:
+        if "image" not in request.files:
+            return jsonify({"error": "No image uploaded"}), 400
+
+        f = request.files["image"]
+        ext = Path(f.filename).suffix.lower()
+        if ext not in ALLOWED:
+            return jsonify({"error": f"Unsupported file type: {ext}"}), 400
+
+        # Save uploaded file to a temp path
+        uid = uuid.uuid4().hex[:8]
+        save_path = UPLOAD_DIR / f"rack_{uid}{ext}"
+        f.save(str(save_path))
+
+        threshold = float(request.form.get("threshold", CLIP_THRESHOLD))
+
         counts = detect_chips(
             rack_path=save_path,
             refs_dir=DEFAULT_REFS_DIR,
@@ -77,7 +77,7 @@ def detect():
 
     except Exception as e:
         traceback.print_exc()
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": str(e), "traceback": traceback.format_exc()}), 500
 
 
 @app.route("/result/<uid>")
