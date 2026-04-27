@@ -5,6 +5,12 @@ A high-precision, computer vision-based chip inventory system. This tool automat
 ![UI Preview](https://img.shields.io/badge/Interface-Modern_Web-orange?style=flat-square)
 ![Core](https://img.shields.io/badge/Engine-Python_3.10+-blue?style=flat-square)
 ![ML](https://img.shields.io/badge/ML-CLIP_+_rembg-green?style=flat-square)
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/Gauurab/chips-counter)
+
+## 🌐 Live Demo
+
+Try out the application directly in your browser without any setup:
+[**Gauurab/chips-counter on Hugging Face Spaces**](https://huggingface.co/spaces/Gauurab/chips-counter)
 
 ## 🌟 Features
 
@@ -43,6 +49,11 @@ Navigate to `http://localhost:5050` in your browser.
 2. **Scanning**: The system slides windows over the foreground areas. It skips regions that are mostly background.
 3. **Identification**: Every valid window is passed to CLIP. CLIP compares the window against the `chip_refs` embeddings.
 4. **Aggregation**: The results are cleaned using Global NMS. If you provided a "Front" and "Back" view, the counts are summed and multiplied by the **Stack Depth** provided in the UI.
+
+## ⚙️ Continuous Deployment
+
+This project uses **GitHub Actions** (`.github/workflows/sync_to_huggingface.yml`) for seamless continuous deployment.
+Whenever new code is pushed to the `main` branch, the workflow automatically synchronizes the latest changes to the live Hugging Face Space using the `huggingface_hub` Python package. This pipeline easily handles updating large model files directly via the Hugging Face API, completely bypassing Git LFS size limits.
 
 ## 📁 Project Structure
 
