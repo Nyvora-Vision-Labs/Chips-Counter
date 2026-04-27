@@ -90,7 +90,8 @@ def result_image(uid):
 
 
 if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5050))
     print("\n🚀  Chip Rack Counter server starting …")
     print(f"    Upload dir : {UPLOAD_DIR}")
-    print(f"    Open       : http://localhost:5050\n")
-    app.run(host="0.0.0.0", port=5050, debug=False)
+    print(f"    Open       : http://localhost:{port}\n")
+    app.run(host="0.0.0.0", port=port, debug=False)

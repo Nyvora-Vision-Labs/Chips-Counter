@@ -1,0 +1,8 @@
+flask
+torch
+torchvision
+transformers
+Pillow
+opencv-python-headless
+rembg[cpu]
+numpy
