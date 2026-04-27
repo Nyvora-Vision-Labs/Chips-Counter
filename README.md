@@ -1,3 +1,11 @@
+---
+title: Chips Counter
+emoji: 🛒
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 5050
+---
 # 🛒 AI Chip Rack Counter
 
 A high-precision, computer vision-based chip inventory system. This tool automates the process of counting chip bags in retail racks by isolating the rack from the background, segmenting individual bags, and classifying them using OpenAI's CLIP.
