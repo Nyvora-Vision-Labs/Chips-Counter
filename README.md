@@ -35,7 +35,7 @@ Try out the application directly in your browser without any setup:
 Ensure you have Python 3.10+ installed.
 
 ```bash
-pip install flask torch torchvision transformers rembg opencv-python numpy pillow
+pip install -r requirements.txt
 ```
 
 ### 2. Prepare Reference Images

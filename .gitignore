@@ -13,10 +13,12 @@ env/
 # Project Specific
 uploads/
 rack/*_detected.jpg
+*_crops/
 yolov8m-seg.pt
 
 # OS
 .DS_Store
+**/.DS_Store
 
 # Logs
-server.log
+*.log
