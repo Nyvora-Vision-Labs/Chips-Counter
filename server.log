@@ -460,3 +460,337 @@ Notes:
 127.0.0.1 - - [27/Apr/2026 11:07:24] "POST /detect HTTP/1.1" 200 -
 127.0.0.1 - - [27/Apr/2026 11:07:24] "GET /result/ddc13402 HTTP/1.1" 200 -
 127.0.0.1 - - [27/Apr/2026 11:07:24] "GET /result/f5aeedd1 HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 11:40:46] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 11:40:46] "GET /favicon.ico HTTP/1.1" 404 -
+
+📚  Encoding 13 reference chip images …
+   ✓ Doritos Cool Ranch
+   ✓ Doritos Nacho
+   ✓ Lays Baked Bbq
+   ✓ Lays Baked
+   ✓ Lays Bbq
+   ✓ Lays Classic
+   ✓ Miss Vickes Sea Salt
+   ✓ Miss Vickies Pickle
+   ✓ Miss Vickies
+   ✓ Ruffles Baked
+   ✓ Ruffles Cheddar
+   ✓ Sun Chips Garden Salsa
+   ✓ Sun Chips Harvest Cheddar
+
+📷  Loaded: rack_f5aeedd1.png  (348×348)
+🖼   Removing background …
+
+📐  Foreground region: 312×326 px
+    Estimated bag size: 52×65 px
+    Scale factors applied: [0.75, 1.0, 1.3]
+
+🔍  Scanning foreground with sliding windows …
+   Total windows evaluated : 322
+   Windows above threshold : 136
+   After global NMS        : 31
+
+============================================================
+🛒  CHIP COUNT RESULTS
+============================================================
+  • Doritos Nacho                     11  ███████████
+  • Lays Baked                         7  ███████
+  • Lays Baked Bbq                     3  ███
+  • Lays Bbq                           1  █
+  • Lays Classic                       1  █
+  • Ruffles Cheddar                    1  █
+  • Sun Chips Garden Salsa             6  ██████
+  • Sun Chips Harvest Cheddar          1  █
+------------------------------------------------------------
+  TOTAL                             31
+============================================================
+
+🖼   Annotated image  → /Users/gauurab/Documents/Projects/Chips-Counter/uploads/rack_f5aeedd1_detected.jpg
+
+🤖  Loading CLIP (openai/clip-vit-base-patch32) …  [device: cpu]
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 84071.97it/s]
+[1mCLIPModel LOAD REPORT[0m from: openai/clip-vit-base-patch32
+Key                                  | Status     |  | 
+-------------------------------------+------------+--+-
+vision_model.embeddings.position_ids | UNEXPECTED |  | 
+text_model.embeddings.position_ids   | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+127.0.0.1 - - [27/Apr/2026 11:41:15] "POST /detect HTTP/1.1" 200 -
+
+📚  Encoding 13 reference chip images …
+   ✓ Doritos Cool Ranch
+   ✓ Doritos Nacho
+   ✓ Lays Baked Bbq
+   ✓ Lays Baked
+   ✓ Lays Bbq
+   ✓ Lays Classic
+   ✓ Miss Vickes Sea Salt
+   ✓ Miss Vickies Pickle
+   ✓ Miss Vickies
+   ✓ Ruffles Baked
+   ✓ Ruffles Cheddar
+   ✓ Sun Chips Garden Salsa
+   ✓ Sun Chips Harvest Cheddar
+
+📷  Loaded: rack_d4f598a6.png  (547×730)
+🖼   Removing background …
+
+📐  Foreground region: 353×537 px
+    Estimated bag size: 58×107 px
+    Scale factors applied: [0.75, 1.0, 1.3]
+
+🔍  Scanning foreground with sliding windows …
+   Total windows evaluated : 311
+   Windows above threshold : 194
+   After global NMS        : 38
+
+============================================================
+🛒  CHIP COUNT RESULTS
+============================================================
+  • Doritos Cool Ranch                 1  █
+  • Doritos Nacho                     15  ███████████████
+  • Lays Baked                         1  █
+  • Ruffles Cheddar                    8  ████████
+  • Sun Chips Garden Salsa             9  █████████
+  • Sun Chips Harvest Cheddar          4  ████
+------------------------------------------------------------
+  TOTAL                             38
+============================================================
+
+🖼   Annotated image  → /Users/gauurab/Documents/Projects/Chips-Counter/uploads/rack_d4f598a6_detected.jpg
+
+🤖  Loading CLIP (openai/clip-vit-base-patch32) …  [device: cpu]
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 64153.30it/s]
+[1mCLIPModel LOAD REPORT[0m from: openai/clip-vit-base-patch32
+Key                                  | Status     |  | 
+-------------------------------------+------------+--+-
+vision_model.embeddings.position_ids | UNEXPECTED |  | 
+text_model.embeddings.position_ids   | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+127.0.0.1 - - [27/Apr/2026 11:41:28] "POST /detect HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 11:41:28] "GET /result/c74c07fa HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 11:41:28] "GET /result/d4f598a6 HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 11:47:57] "GET / HTTP/1.1" 304 -
+
+📚  Encoding 13 reference chip images …
+   ✓ Doritos Cool Ranch
+   ✓ Doritos Nacho
+   ✓ Lays Baked Bbq
+   ✓ Lays Baked
+   ✓ Lays Bbq
+   ✓ Lays Classic
+   ✓ Miss Vickes Sea Salt
+   ✓ Miss Vickies Pickle
+   ✓ Miss Vickies
+   ✓ Ruffles Baked
+   ✓ Ruffles Cheddar
+   ✓ Sun Chips Garden Salsa
+   ✓ Sun Chips Harvest Cheddar
+
+📷  Loaded: rack_c74c07fa.png  (457×609)
+🖼   Removing background …
+
+📐  Foreground region: 361×461 px
+    Estimated bag size: 60×92 px
+    Scale factors applied: [0.75, 1.0, 1.3]
+
+🔍  Scanning foreground with sliding windows …
+   Total windows evaluated : 281
+   Windows above threshold : 182
+   After global NMS        : 34
+
+============================================================
+🛒  CHIP COUNT RESULTS
+============================================================
+  • Doritos Nacho                      3  ███
+  • Lays Baked                        16  ████████████████
+  • Lays Bbq                           1  █
+  • Lays Classic                      10  ██████████
+  • Miss Vickies                       4  ████
+------------------------------------------------------------
+  TOTAL                             34
+============================================================
+
+🖼   Annotated image  → /Users/gauurab/Documents/Projects/Chips-Counter/uploads/rack_c74c07fa_detected.jpg
+
+🤖  Loading CLIP (openai/clip-vit-base-patch32) …  [device: cpu]
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 68502.32it/s]
+[1mCLIPModel LOAD REPORT[0m from: openai/clip-vit-base-patch32
+Key                                  | Status     |  | 
+-------------------------------------+------------+--+-
+vision_model.embeddings.position_ids | UNEXPECTED |  | 
+text_model.embeddings.position_ids   | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+127.0.0.1 - - [27/Apr/2026 11:48:23] "POST /detect HTTP/1.1" 200 -
+
+📚  Encoding 13 reference chip images …
+   ✓ Doritos Cool Ranch
+   ✓ Doritos Nacho
+   ✓ Lays Baked Bbq
+   ✓ Lays Baked
+   ✓ Lays Bbq
+   ✓ Lays Classic
+   ✓ Miss Vickes Sea Salt
+   ✓ Miss Vickies Pickle
+   ✓ Miss Vickies
+   ✓ Ruffles Baked
+   ✓ Ruffles Cheddar
+   ✓ Sun Chips Garden Salsa
+   ✓ Sun Chips Harvest Cheddar
+
+📷  Loaded: rack_7c4cea2b.png  (547×730)
+🖼   Removing background …
+
+📐  Foreground region: 353×537 px
+    Estimated bag size: 58×107 px
+    Scale factors applied: [0.75, 1.0, 1.3]
+
+🔍  Scanning foreground with sliding windows …
+   Total windows evaluated : 311
+   Windows above threshold : 194
+   After global NMS        : 38
+
+============================================================
+🛒  CHIP COUNT RESULTS
+============================================================
+  • Doritos Cool Ranch                 1  █
+  • Doritos Nacho                     15  ███████████████
+  • Lays Baked                         1  █
+  • Ruffles Cheddar                    8  ████████
+  • Sun Chips Garden Salsa             9  █████████
+  • Sun Chips Harvest Cheddar          4  ████
+------------------------------------------------------------
+  TOTAL                             38
+============================================================
+
+🖼   Annotated image  → /Users/gauurab/Documents/Projects/Chips-Counter/uploads/rack_7c4cea2b_detected.jpg
+
+🤖  Loading CLIP (openai/clip-vit-base-patch32) …  [device: cpu]
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 69946.07it/s]
+[1mCLIPModel LOAD REPORT[0m from: openai/clip-vit-base-patch32
+Key                                  | Status     |  | 
+-------------------------------------+------------+--+-
+vision_model.embeddings.position_ids | UNEXPECTED |  | 
+text_model.embeddings.position_ids   | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+127.0.0.1 - - [27/Apr/2026 11:48:35] "POST /detect HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 11:48:35] "GET /result/9545f447 HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 11:48:35] "GET /result/7c4cea2b HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 12:21:38] "GET / HTTP/1.1" 304 -
+
+📚  Encoding 13 reference chip images …
+   ✓ Doritos Cool Ranch
+   ✓ Doritos Nacho
+   ✓ Lays Baked Bbq
+   ✓ Lays Baked
+   ✓ Lays Bbq
+   ✓ Lays Classic
+   ✓ Miss Vickes Sea Salt
+   ✓ Miss Vickies Pickle
+   ✓ Miss Vickies
+   ✓ Ruffles Baked
+   ✓ Ruffles Cheddar
+   ✓ Sun Chips Garden Salsa
+   ✓ Sun Chips Harvest Cheddar
+
+📷  Loaded: rack_9545f447.png  (457×609)
+🖼   Removing background …
+
+📐  Foreground region: 361×461 px
+    Estimated bag size: 60×92 px
+    Scale factors applied: [0.75, 1.0, 1.3]
+
+🔍  Scanning foreground with sliding windows …
+   Total windows evaluated : 281
+   Windows above threshold : 182
+   After global NMS        : 34
+
+============================================================
+🛒  CHIP COUNT RESULTS
+============================================================
+  • Doritos Nacho                      3  ███
+  • Lays Baked                        16  ████████████████
+  • Lays Bbq                           1  █
+  • Lays Classic                      10  ██████████
+  • Miss Vickies                       4  ████
+------------------------------------------------------------
+  TOTAL                             34
+============================================================
+
+🖼   Annotated image  → /Users/gauurab/Documents/Projects/Chips-Counter/uploads/rack_9545f447_detected.jpg
+
+🤖  Loading CLIP (openai/clip-vit-base-patch32) …  [device: cpu]
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 62418.97it/s]
+[1mCLIPModel LOAD REPORT[0m from: openai/clip-vit-base-patch32
+Key                                  | Status     |  | 
+-------------------------------------+------------+--+-
+vision_model.embeddings.position_ids | UNEXPECTED |  | 
+text_model.embeddings.position_ids   | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+127.0.0.1 - - [27/Apr/2026 12:22:07] "POST /detect HTTP/1.1" 200 -
+
+📚  Encoding 13 reference chip images …
+   ✓ Doritos Cool Ranch
+   ✓ Doritos Nacho
+   ✓ Lays Baked Bbq
+   ✓ Lays Baked
+   ✓ Lays Bbq
+   ✓ Lays Classic
+   ✓ Miss Vickes Sea Salt
+   ✓ Miss Vickies Pickle
+   ✓ Miss Vickies
+   ✓ Ruffles Baked
+   ✓ Ruffles Cheddar
+   ✓ Sun Chips Garden Salsa
+   ✓ Sun Chips Harvest Cheddar
+
+📷  Loaded: rack_456481ab.png  (547×730)
+🖼   Removing background …
+
+📐  Foreground region: 353×537 px
+    Estimated bag size: 58×107 px
+    Scale factors applied: [0.75, 1.0, 1.3]
+
+🔍  Scanning foreground with sliding windows …
+   Total windows evaluated : 311
+   Windows above threshold : 194
+   After global NMS        : 38
+
+============================================================
+🛒  CHIP COUNT RESULTS
+============================================================
+  • Doritos Cool Ranch                 1  █
+  • Doritos Nacho                     15  ███████████████
+  • Lays Baked                         1  █
+  • Ruffles Cheddar                    8  ████████
+  • Sun Chips Garden Salsa             9  █████████
+  • Sun Chips Harvest Cheddar          4  ████
+------------------------------------------------------------
+  TOTAL                             38
+============================================================
+
+🖼   Annotated image  → /Users/gauurab/Documents/Projects/Chips-Counter/uploads/rack_456481ab_detected.jpg
+
+🤖  Loading CLIP (openai/clip-vit-base-patch32) …  [device: cpu]
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 68294.93it/s]
+[1mCLIPModel LOAD REPORT[0m from: openai/clip-vit-base-patch32
+Key                                  | Status     |  | 
+-------------------------------------+------------+--+-
+vision_model.embeddings.position_ids | UNEXPECTED |  | 
+text_model.embeddings.position_ids   | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+127.0.0.1 - - [27/Apr/2026 12:22:19] "POST /detect HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 12:22:19] "GET /result/456481ab HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 12:22:19] "GET /result/90afe6f8 HTTP/1.1" 200 -
