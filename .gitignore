@@ -17,3 +17,6 @@ yolov8m-seg.pt
 
 # OS
 .DS_Store
+
+# Logs
+server.log
