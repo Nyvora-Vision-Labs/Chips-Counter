@@ -23,5 +23,5 @@ jobs:
           HF_USERNAME: "Gauurab"
           SPACE_NAME: "chips-counter"
         run: |
-          git remote add space https://$HF_USERNAME:$HF_TOKEN@huggingface.co/spaces/$HF_USERNAME/$SPACE_NAME
-          git push --force space main
+          pip install huggingface_hub
+          huggingface-cli upload $HF_USERNAME/$SPACE_NAME . . --repo-type=space --commit-message="Sync from GitHub Actions" --exclude ".git/*" ".github/*"
