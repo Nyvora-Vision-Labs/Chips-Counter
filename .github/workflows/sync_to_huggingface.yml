@@ -24,4 +24,4 @@ jobs:
           SPACE_NAME: "chips-counter"
         run: |
           pip install huggingface_hub
-          huggingface-cli upload $HF_USERNAME/$SPACE_NAME . . --repo-type=space --commit-message="Sync from GitHub Actions" --exclude ".git/*" ".github/*"
+          hf upload $HF_USERNAME/$SPACE_NAME . . --repo-type=space --commit-message="Sync from GitHub Actions" --exclude ".git/*" ".github/*"
