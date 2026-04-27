@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+*.ipynb
+
+# Environment
+.env
+venv/
+env/
+
+# Project Specific
+uploads/
+rack/*_detected.jpg
+yolov8m-seg.pt
+
+# OS
+.DS_Store
