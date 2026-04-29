@@ -47,24 +47,26 @@ CLIP_MODEL_ID     = "openai/clip-vit-base-patch32"
 CLIP_THRESHOLD    = 0.65
 
 # Fraction of the foreground bounding-box dimensions used to estimate a
-# single chip-bag size.  Tune if bags appear larger/smaller in your images.
-BAG_WIDTH_FRAC    = 1 / 6    # ~6 bags side-by-side per row
-BAG_HEIGHT_FRAC   = 1 / 5   # ~5 rows on the rack
+# single chip-bag size.  Tuned for ~8-9 bags per row, ~6 rows on the rack.
+BAG_WIDTH_FRAC    = 1 / 8.5   # was 1/6
+BAG_HEIGHT_FRAC   = 1 / 6.5   # was 1/5
 
-# We slide windows at three scale factors around the estimated size
-SCALE_FACTORS     = [0.75, 1.0, 1.3]
+# We slide windows at three scale factors around the estimated size.
+# Tighter range reduces differently-sized boxes landing on the same bag.
+SCALE_FACTORS     = [0.85, 1.0, 1.15]   # was [0.75, 1.0, 1.3]
 
-# Stride as a fraction of window size
-# 0.5 means windows overlap by 50% — enough density without explosion of crops
-STRIDE_FRAC       = 0.50
+# Stride as a fraction of window size.
+# Smaller stride lets the window centre more precisely on each bag.
+STRIDE_FRAC       = 0.35   # was 0.50
 
 # A candidate window must contain at least this fraction of foreground pixels
 # (eliminates windows that land mostly on transparent/background areas)
-MIN_FG_FRAC       = 0.65
+MIN_FG_FRAC       = 0.75   # was 0.65
 
 # Global IoU threshold: any two windows that overlap more than this are
-# considered to cover the SAME bag — only the highest-scoring one survives
-NMS_IOU_THRESH    = 0.20
+# considered to cover the SAME bag — only the highest-scoring one survives.
+# Higher value = stricter deduplication, tighter surviving boxes.
+NMS_IOU_THRESH    = 0.35   # was 0.20
 
 # BGR colour palette for annotation
 PALETTE = [
@@ -197,7 +199,7 @@ def detect_chips(
     """
     Full pipeline:
       rack image → bg removal → foreground sliding window → CLIP classify
-      → per-label NMS → counts dict
+      → global NMS → counts dict
 
     Returns {chip_label: count}.
     """
