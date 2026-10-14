@@ -19,7 +19,7 @@ from flask import Flask, request, jsonify, send_from_directory, send_file
 # ── Import the detection pipeline directly ───────────────────────────────────
 HERE = Path(__file__).parent
 sys.path.insert(0, str(HERE))
-from detection import detect_chips, DEFAULT_REFS_DIR, CLIP_THRESHOLD
+from detection import detect_chips, DEFAULT_REFS_DIR, CLIP_THRESHOLD, _MODELS
 
 app = Flask(__name__, static_folder=str(HERE))
 
@@ -94,4 +94,7 @@ if __name__ == "__main__":
     print("\n🚀  Chip Rack Counter server starting …")
     print(f"    Upload dir : {UPLOAD_DIR}")
     print(f"    Open       : http://localhost:{port}\n")
+    # Load models up front so the first upload doesn't pay the load time.
+    _MODELS.load()
+    _MODELS.load_refs(DEFAULT_REFS_DIR)
     app.run(host="0.0.0.0", port=port, debug=False)

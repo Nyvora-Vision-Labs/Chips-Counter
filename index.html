@@ -291,7 +291,6 @@
           
           const fd = new FormData();
           fd.append('image', files[key]);
-          fd.append('threshold', 0.65);
 
           try {
             const res = await fetch('/detect', { method: 'POST', body: fd });

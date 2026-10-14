@@ -18,6 +18,12 @@ COPY --chown=user requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install "rembg[cpu]"
 
+# Bake model weights into the image so the first request isn't a cold download
+RUN python -c "from transformers import CLIPModel, CLIPProcessor, Owlv2ForObjectDetection, Owlv2Processor; \
+    [c.from_pretrained('openai/clip-vit-base-patch32') for c in (CLIPModel, CLIPProcessor)]; \
+    [c.from_pretrained('google/owlv2-base-patch16-ensemble') for c in (Owlv2ForObjectDetection, Owlv2Processor)]; \
+    from rembg import new_session; new_session('u2net')"
+
 # Copy the rest of the application files
 COPY --chown=user . .
 
